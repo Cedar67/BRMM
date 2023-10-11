@@ -162,4 +162,8 @@ cython_debug/
 # macOS system file
 .DS_Store
 
+# MySQL connection information file
 connect.py
+
+# VS Code config folder
+.vscode
