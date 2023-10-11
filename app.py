@@ -30,9 +30,15 @@ def home():
 @app.route("/listdrivers")
 def listdrivers():
     connection = getCursor()
-    connection.execute("SELECT * FROM driver;")
+    sql = """   SELECT * FROM driver 
+                INNER JOIN car 
+                ON driver.car = car.car_num
+                ORDER BY driver.surname, driver.first_name;"""
+
+    connection.execute(sql)
     driverList = connection.fetchall()
     print(driverList)
+    
     return render_template("driverlist.html", driver_list = driverList)    
 
 @app.route("/listcourses")
@@ -48,6 +54,7 @@ def showgraph():
     # Insert code to get top 5 drivers overall, ordered by their final results.
     # Use that to construct 2 lists: bestDriverList containing the names, resultsList containing the final result values
     # Names should include their ID and a trailing space, eg '133 Oliver Ngatai '
-
+    bestDriverList = {}
+    resultsList = {}
     return render_template("top5graph.html", name_list = bestDriverList, value_list = resultsList)
 
