@@ -8,13 +8,19 @@
     </head>
 
     <body>
+      <style>
+        body{margin: 30px;}
+      </style>
       <nav>
             <h1>Bankside Rakaia Motorkhana Mavens - Competition event</h1>
-            <ul>
-                <li><a href="{{ url_for('listdrivers') }}">List Drivers</a></li>
-                <li><a href="{{ url_for('listcourses') }}">List Courses</a></li>
-            </ul>
-          </nav>
+            <table class="table">
+              <tr>
+                <td><a href="{{ url_for('home') }}">Home</a></td>
+                <td><a href="{{ url_for('listdrivers') }}">List Drivers</a></td>
+                <td><a href="{{ url_for('listcourses') }}">List Courses</a></td>
+              </tr>
+            </table>
+        </nav>
           <section class="content">
             <header>
               {% block header %}{% endblock %}
