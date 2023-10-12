@@ -1,3 +1,4 @@
+from decimal import Decimal
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -22,6 +23,64 @@ def getCursor():
     database=connect.dbname, autocommit=True)
     dbconn = connection.cursor()
     return dbconn
+
+def runsCalculate(runDetail):
+    # Calculate the Run Totals
+    # Return a list including the run id, course type, driver id, basic time, cones hit, WD status and the Run Totals.
+
+    # Convert the dictionary data into a list that displays the required data fields
+    update_list = []
+
+    for listRun in runDetail:
+        # Calculate WD time and make WD Value as Yes/No
+        if listRun[10] == 1:
+            wd_time = 10
+        elif listRun[10] == 0:
+            wd_time = 0
+        elif listRun[10] == None:
+            wd_time = 0
+        else:
+            print("\nerror: Invalid WD data\n")
+            return -1
+        # Get basic time
+        if listRun[8] == None :
+            time = 0
+        elif type(listRun[8]) in (float,int) :
+            time = listRun[8]
+        else:
+            print("\nerror: Invalid Time data\n")
+            return -1
+        # Make sure time is recorded to the nearest 0.01 of a second
+        time = Decimal(time).quantize(Decimal("0.00"))
+
+        # Get num of cones
+        if listRun[9] == None:
+            cones_time = 0
+        elif type(listRun[9]) == int:
+            cones_time = listRun[9]
+        else:
+            print("\nerror: Invalid Cones data\n")
+            return -1
+        # Calculate total time
+        run_total = time + cones_time*5 + wd_time
+
+        # Put into a list with the run id, course type, driver id, basic time, cones hit, WD status and the Run Totals.
+        run = (
+                listRun[0],
+                listRun[1],
+                listRun[2],
+                listRun[3],
+                listRun[4],
+                listRun[5],
+                listRun[6],
+                listRun[7],
+                listRun[8],
+                listRun[9],
+                listRun[10],
+                run_total)
+        update_list.append(list(run))
+
+    return update_list
 
 @app.route("/")
 def home():
@@ -62,19 +121,26 @@ def showgraph():
 def rundetail():
     connection = getCursor()
     # sql = """   SELECT driver_id,first_name,surname,age FROM driver 
-    sql = """   SELECT * FROM driver 
-                INNER JOIN car
-                ON driver.car = car.car_num
-                INNER JOIN run
-                ON driver.driver_id = run.dr_id
-                INNER JOIN course
-                ON course.course_id = run.crs_id
+    sql = """   SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
+                car.model, car.drive_class, course.name, 
+                run.run_num, run.seconds, run.cones, run.wd
+				FROM driver 
+                INNER JOIN car ON driver.car = car.car_num
+                INNER JOIN run ON driver.driver_id = run.dr_id
+                INNER JOIN course ON course.course_id = run.crs_id
                 ORDER BY run.crs_id;"""
 
     connection.execute(sql)
-    rundetail = connection.fetchall()
-    for list in rundetail:
+    runDetail = connection.fetchall()
+
+    # Debug print
+    for list in runDetail:
         print(list)
     
-    return render_template("rundetail.html", run_detail = rundetail)  
+    print("\n\n\n\n")
+    runDetailUpdate = runsCalculate(runDetail)
+    for list in runDetailUpdate:
+        print(list)
+    
+    return render_template("rundetail.html", run_detail = runDetailUpdate)  
 

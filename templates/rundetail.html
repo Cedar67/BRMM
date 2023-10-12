@@ -15,7 +15,7 @@
             <th>Car Model</th>
             <th>Drive Class</th>
             <th>Course Name</th>
-            <th>Run num</th>
+            <th>Run Num</th>
             <th>Time</th>
             <th>Cones</th>
             <th>WD</th>
@@ -24,22 +24,22 @@
     </thead>
     <tbody>
     {% for singlelist in run_detail %}
-        {% if singlelist[4] == None %}
+        {% if singlelist[3] == None %}
             {% set sFlag = "" %} 
-        {% elif singlelist[4] <= 25 %}
+        {% elif singlelist[3] <= 25 %}
             {% set sFlag = "(J)" %}
         {% endif %}
         <tr>
                 <th>{{singlelist[0]}}</th>
                 <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                <th>{{singlelist[4]}}</th>
+                <th>{{singlelist[5]}}</th>
+                <th>{{singlelist[6]}}</th>
+                <th>{{singlelist[7]}}</th>
                 <th>{{singlelist[8]}}</th>
                 <th>{{singlelist[9]}}</th>
-                <th>{{singlelist[17]}}</th>
-                <th>{{singlelist[12]}}</th>
-                <th>{{singlelist[13]}}</th>
-                <th>{{singlelist[14]}}</th>
-                <th>{{singlelist[15]}}</th>
-                <!-- <th>{{singlelist[9]}}</th> -->
+                <th>{{singlelist[10]}}</th>
+                <th>{{singlelist[11]}}</th>
         </tr>
     {% endfor %}
     </tbody>
