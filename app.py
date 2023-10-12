@@ -37,8 +37,8 @@ def listdrivers():
 
     connection.execute(sql)
     driverList = connection.fetchall()
-    print(driverList)
-    
+    for list in driverList:
+        print(list)
     return render_template("driverlist.html", driver_list = driverList)    
 
 @app.route("/listcourses")
@@ -57,4 +57,24 @@ def showgraph():
     bestDriverList = {}
     resultsList = {}
     return render_template("top5graph.html", name_list = bestDriverList, value_list = resultsList)
+
+@app.route("/rundetail")
+def rundetail():
+    connection = getCursor()
+    # sql = """   SELECT driver_id,first_name,surname,age FROM driver 
+    sql = """   SELECT * FROM driver 
+                INNER JOIN car
+                ON driver.car = car.car_num
+                INNER JOIN run
+                ON driver.driver_id = run.dr_id
+                INNER JOIN course
+                ON course.course_id = run.crs_id
+                ORDER BY run.crs_id;"""
+
+    connection.execute(sql)
+    rundetail = connection.fetchall()
+    for list in rundetail:
+        print(list)
+    
+    return render_template("rundetail.html", run_detail = rundetail)  
 

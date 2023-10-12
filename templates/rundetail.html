@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- driver_list is the variable passed in containing the list of drivers -->
+<!-- Add code to display a list of drivers -->
+
+<h2>Run Details</h2>
+
+<!-- code to display list of courses-->
+<table>
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Driver ID</th>
+            <th>Driver Name</th>
+            <th>Car Model</th>
+            <th>Drive Class</th>
+            <th>Course Name</th>
+            <th>Run num</th>
+            <th>Time</th>
+            <th>Cones</th>
+            <th>WD</th>
+            <th>Run Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for singlelist in run_detail %}
+        {% if singlelist[4] == None %}
+            {% set sFlag = "" %} 
+        {% elif singlelist[4] <= 25 %}
+            {% set sFlag = "(J)" %}
+        {% endif %}
+        <tr>
+                <th>{{singlelist[0]}}</th>
+                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                <th>{{singlelist[8]}}</th>
+                <th>{{singlelist[9]}}</th>
+                <th>{{singlelist[17]}}</th>
+                <th>{{singlelist[12]}}</th>
+                <th>{{singlelist[13]}}</th>
+                <th>{{singlelist[14]}}</th>
+                <th>{{singlelist[15]}}</th>
+                <!-- <th>{{singlelist[9]}}</th> -->
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
