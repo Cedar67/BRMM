@@ -7,7 +7,7 @@
 
 <!-- code to display list of courses-->
 <table>
-    <!-- <table class="table table-striped"> -->
+    <table class="table table-bordered">
     <thead>
         <tr>
             <th>Driver ID</th>
@@ -18,13 +18,16 @@
     </thead>
     <tbody>
     {% for singlelist in driver_list %}
-        {#{% if singlelist[4] <= 25 %}
-
-        {% endif %}#}
-        <tr style="background-color:yellow">
-
+        {% set sFlag = "" %} 
+        {% if singlelist[4] == None %}
+            <tr>
+        {% elif singlelist[4] <= 25 %}
+            {% set sFlag = "(J)" %}
+            <tr class="table-warning">
+            <!-- <tr style="background-color:yellow"> -->
+        {% endif %}
                 <th>{{singlelist[0]}}</th>
-                <th>{{singlelist[1]}} {{singlelist[2]}}</th>
+                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
                 <th>{{singlelist[8]}}</th>
                 <th>{{singlelist[9]}}</th>
         </tr>
