@@ -5,9 +5,28 @@
 
 <h2>Run Details</h2>
 
+<form id="driver_form" name="driver_form" action="/rundetail" method="post">
+
+    <p>
+        <label>Driver</label>
+        <select name="driver" id="driver" >
+            <option selected>&lt;Select a driver&gt;</option>
+            {% for driver in driver_List %}
+                <!-- if statement adds:  selected="selected"  to the driver that matches driverid, 
+                    so that that driver is selected and shown in the dropdown -->
+                <option value="{{driver[0]}}" {% if driver[0] == driverid %}selected="selected"{% endif%}>{{driver[1]}} {{driver[2]}}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Filter" />
+        <!-- <input type="reset" value="Cancel" /> -->
+
+    </p>
+</form>
+
 <!-- code to display list of courses-->
 <table>
-    <table class="table table-bordered">
+    <table class="table table-striped">
     <thead>
         <tr>
             <th>Driver ID</th>

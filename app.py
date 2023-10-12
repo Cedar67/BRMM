@@ -117,30 +117,59 @@ def showgraph():
     resultsList = {}
     return render_template("top5graph.html", name_list = bestDriverList, value_list = resultsList)
 
-@app.route("/rundetail")
+@app.route("/rundetail", methods=['POST','GET'])
 def rundetail():
+    # Get driver id that user selects from rundetail.html
+    driverId = request.form.get('driver')
+    #If driverId can be converted to an integer, convert to integer, otherwise set to None.
+    try:
+        driverId=int(driverId)
+    except:
+        driverId=None
+    # Get driver name list and order by first name
     connection = getCursor()
-    # sql = """   SELECT driver_id,first_name,surname,age FROM driver 
-    sql = """   SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
+    sql=""" SELECT distinct driver.driver_id, driver.first_name, driver.surname
+            FROM driver
+            INNER JOIN car ON driver.car = car.car_num
+            INNER JOIN run ON driver.driver_id = run.dr_id
+            INNER JOIN course ON course.course_id = run.crs_id
+            order by driver.first_name;"""
+    connection.execute(sql)
+    driverList = connection.fetchall()
+
+
+    connection = getCursor()
+    sql1 = """   SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
                 car.model, car.drive_class, course.name, 
                 run.run_num, run.seconds, run.cones, run.wd
 				FROM driver 
                 INNER JOIN car ON driver.car = car.car_num
                 INNER JOIN run ON driver.driver_id = run.dr_id
-                INNER JOIN course ON course.course_id = run.crs_id
-                ORDER BY run.crs_id;"""
-
-    connection.execute(sql)
-    runDetail = connection.fetchall()
-
-    # Debug print
-    for list in runDetail:
-        print(list)
+                INNER JOIN course ON course.course_id = run.crs_id"""
     
-    print("\n\n\n\n")
+    if request.method == 'POST' and driverId is not None:
+        sql2 = "where driver.driver_id = %s"
+        parameters = (driverId,)
+    else:
+        sql2 = ""
+        parameters = ()
+
+    # Order by course id
+    sql3 = "ORDER BY run.crs_id;"""
+
+    # Combine all of the SQL parts into one SQL string. 
+    # SQL2 will be "" if no value passed. 
+    # Spaces avoid errors if no space between the strings.
+    sql = sql1 + ' ' + sql2 + ' ' +sql3
+    connection.execute(sql, parameters)
+    runDetail = connection.fetchall()
+    
+    # Calculate the Run Total
     runDetailUpdate = runsCalculate(runDetail)
+    
+    # Debug print
     for list in runDetailUpdate:
         print(list)
     
-    return render_template("rundetail.html", run_detail = runDetailUpdate)  
+    return render_template("rundetail.html", run_detail = runDetailUpdate, driver_List = driverList)  
 
