@@ -9,8 +9,14 @@
 
     <p>
         <label>Driver</label>
-        <select name="driver" id="driver" >
-            <option selected>&lt;Select a driver&gt;</option>
+        <select name="driver" id="driver">
+            {% if defaul_driver == None %}
+                <option selected>&lt;Select a driver&gt;</option>
+            {% else %}
+                <option value="{{run_detail[0][0]}}" selected> {{run_detail[0][1]}}  {{run_detail[0][2]}}</option>
+            {% endif %}
+
+            <option>&lt;Select all drivers&gt;</option>
             {% for driver in driver_List %}
                 <!-- if statement adds:  selected="selected"  to the driver that matches driverid, 
                     so that that driver is selected and shown in the dropdown -->

@@ -119,13 +119,6 @@ def showgraph():
 
 @app.route("/rundetail", methods=['POST','GET'])
 def rundetail():
-    # Get driver id that user selects from rundetail.html
-    driverId = request.form.get('driver')
-    #If driverId can be converted to an integer, convert to integer, otherwise set to None.
-    try:
-        driverId=int(driverId)
-    except:
-        driverId=None
     # Get driver name list and order by first name
     connection = getCursor()
     sql=""" SELECT distinct driver.driver_id, driver.first_name, driver.surname
@@ -139,7 +132,7 @@ def rundetail():
 
 
     connection = getCursor()
-    sql1 = """   SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
+    sql1 = """  SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
                 car.model, car.drive_class, course.name, 
                 run.run_num, run.seconds, run.cones, run.wd
 				FROM driver 
@@ -147,9 +140,25 @@ def rundetail():
                 INNER JOIN run ON driver.driver_id = run.dr_id
                 INNER JOIN course ON course.course_id = run.crs_id"""
     
-    if request.method == 'POST' and driverId is not None:
+    if request.method == 'POST':
+        # Get driver id that user selects from rundetail.html
+        driverId = request.form.get('driver')
+    elif request.method == 'GET':
+        # Get driver id that user clicks from driverlist.html
+        driverId = request.args.get('driverid')
+
+    #If driverId can be converted to an integer, convert to integer, otherwise set to None.
+    try:
+        driverId=int(driverId)
+    except:
+        driverId=None
+
+    defaulDriver = None
+    # if request.method == 'POST' and driverId is not None:
+    if driverId is not None:
         sql2 = "where driver.driver_id = %s"
         parameters = (driverId,)
+        defaulDriver = driverId
     else:
         sql2 = ""
         parameters = ()
@@ -171,5 +180,5 @@ def rundetail():
     for list in runDetailUpdate:
         print(list)
     
-    return render_template("rundetail.html", run_detail = runDetailUpdate, driver_List = driverList)  
+    return render_template("rundetail.html", run_detail = runDetailUpdate, driver_List = driverList, defaul_driver = defaulDriver)  
 
