@@ -82,16 +82,30 @@ def runsCalculate(runDetail):
 
     return update_list
 
+
 @app.route("/")
 def home():
     return render_template("home.html")
+
+
+
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
+
+
+@app.route("/base")
+def base():
+    return render_template("base.html")
+
+
 
 @app.route("/listdrivers")
 def listdrivers():
     connection = getCursor()
     sql = """   SELECT * FROM driver 
-                INNER JOIN car 
-                ON driver.car = car.car_num
+                INNER JOIN car ON driver.car = car.car_num
                 ORDER BY driver.surname, driver.first_name;"""
 
     connection.execute(sql)
@@ -100,12 +114,16 @@ def listdrivers():
         print(list)
     return render_template("driverlist.html", driver_list = driverList)    
 
+
+
 @app.route("/listcourses")
 def listcourses():
     connection = getCursor()
     connection.execute("SELECT * FROM course;")
     courseList = connection.fetchall()
     return render_template("courselist.html", course_list = courseList)
+
+
 
 @app.route("/graph")
 def showgraph():
@@ -116,6 +134,8 @@ def showgraph():
     bestDriverList = {}
     resultsList = {}
     return render_template("top5graph.html", name_list = bestDriverList, value_list = resultsList)
+
+
 
 @app.route("/rundetail", methods=['POST','GET'])
 def rundetail():
@@ -129,7 +149,6 @@ def rundetail():
             order by driver.first_name;"""
     connection.execute(sql)
     driverList = connection.fetchall()
-
 
     connection = getCursor()
     sql1 = """  SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
@@ -182,3 +201,97 @@ def rundetail():
     
     return render_template("rundetail.html", run_detail = runDetailUpdate, driver_List = driverList, defaul_driver = defaulDriver)  
 
+
+
+@app.route("/runedit", methods=['POST','GET'])
+def runedit():
+    # Get driver name list and order by first name
+    connection = getCursor()
+    sql=""" SELECT distinct driver.driver_id, driver.first_name, driver.surname
+            FROM driver
+            INNER JOIN car ON driver.car = car.car_num
+            INNER JOIN run ON driver.driver_id = run.dr_id
+            INNER JOIN course ON course.course_id = run.crs_id
+            order by driver.first_name;"""
+    connection.execute(sql)
+    driverList = connection.fetchall()
+
+    # Get course list and order by course id
+    connection = getCursor()
+    sql=""" SELECT * FROM course order by course.course_id;"""
+    connection.execute(sql)
+    courseList = connection.fetchall()
+
+
+    connection = getCursor()
+    sql1 = """  SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
+                car.model, car.drive_class, course.name, 
+                run.run_num, run.seconds, run.cones, run.wd
+				FROM driver 
+                INNER JOIN car ON driver.car = car.car_num
+                INNER JOIN run ON driver.driver_id = run.dr_id
+                INNER JOIN course ON course.course_id = run.crs_id"""
+    
+    # Get driver id that user selects from runedit.html
+    driverId = request.form.get('driver')
+    # Get course id that user selects from runedit.html
+    courseId = request.form.get('course')
+
+    #If driverId can be converted to an integer, convert to integer, otherwise set to None.
+    try:
+        driverId=int(driverId)
+    except:
+        driverId=None
+
+    #If courseId is not None and course id, then convert it to None.
+    if courseId is not None:
+        if len(courseId)>1:
+            courseId=None
+
+    defaulDriver = None
+    defaulCourse = None
+    
+    if driverId is not None:
+        sql2 = "where driver.driver_id = %s"
+        parameters = (driverId,)
+        defaulDriver = driverId
+    elif courseId is not None:
+        sql2 = "where course.course_id = %s"
+        parameters = (courseId,)
+        defaulCourse = courseId
+    else:
+        sql2 = ""
+        parameters = ()
+
+    # Order by course id
+    sql3 = "ORDER BY run.crs_id;"""
+
+    # Combine all of the SQL parts into one SQL string. 
+    # SQL2 will be "" if no value passed. 
+    # Spaces avoid errors if no space between the strings.
+    sql = sql1 + ' ' + sql2 + ' ' +sql3
+    connection.execute(sql, parameters)
+    runDetail = connection.fetchall()
+    
+    # Calculate the Run Total
+    runDetailUpdate = runsCalculate(runDetail)
+    
+    # Debug print
+    for list in runDetailUpdate:
+        print(list)
+    for list in courseList:
+        print(list)
+    
+    return render_template("runedit.html", run_detail = runDetailUpdate, driver_List = driverList, course_List = courseList, defaul_driver = defaulDriver, defaul_course = defaulCourse)  
+
+
+
+@app.route("/driveradd")
+def driveradd():
+    return render_template("driveradd.html")
+
+
+
+@app.route("/searchdriver")
+def searchdriver():
+    return render_template("driversearch.html")
