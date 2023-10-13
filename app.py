@@ -116,6 +116,22 @@ def listdrivers():
 
 
 
+@app.route("/listjuniordrivers")
+def listjunior():
+    connection = getCursor()
+    sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
+                car.model, car.drive_class, d2.first_name, d2.surname FROM driver d1  
+                INNER JOIN car ON d1.car = car.car_num
+                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id;"""
+
+    connection.execute(sql)
+    driverList = connection.fetchall()
+    for list in driverList:
+        print(list)
+    return render_template("juniorlist.html", driver_list = driverList)    
+
+
+
 @app.route("/listcourses")
 def listcourses():
     connection = getCursor()
