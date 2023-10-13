@@ -1,0 +1,99 @@
+{% extends "admin.html" %}
+{% block content %}
+<!-- driver_list is the variable passed in containing the list of drivers -->
+<!-- Add code to display a list of drivers -->
+
+<h2>Edit Runs</h2>
+
+<table class="table">
+    <tr>
+        <td>
+            <form id="driver_form" name="driver_form" action="/runedit" method="post">
+                <p>
+                    <label>Driver</label>
+                    <select name="driver" id="driver">
+                        {% if defaul_driver == None %}
+                            <option selected>&lt; Select a driver &gt;</option>
+                        {% else %}
+                            <option value="{{run_detail[0][0]}}" selected> {{run_detail[0][1]}}  {{run_detail[0][2]}}</option>
+                        {% endif %}
+
+                        <option>&lt; Select all drivers &gt;</option>
+                        {% for driver in driver_List %}
+                            <option value="{{driver[0]}}">{{driver[1]}} {{driver[2]}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <input type="submit" value="Filter" />
+                    <!-- <input type="reset" value="Cancel" /> -->
+                </p>
+            </form>
+        </td>
+
+
+        <td>
+            <form id="course_form" name="course_form" action="/runedit" method="post">
+                <p>
+                    <label>Course</label>
+                    <select name="course" id="course">
+                        {% if defaul_course == None %}
+                            <option selected>&lt; Select a course &gt;</option>
+                        {% else %}
+                            <option value="{{defaul_course}}" selected> {{defaul_course}} - {{run_detail[0][6]}}</option>
+                        {% endif %}
+
+                        <option>&lt; Select all courses &gt;</option>
+                        {% for course in course_List %}
+                            <option value="{{course[0]}}">{{course[0]}} - {{course[1]}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <input type="submit" value="Filter" />
+                    <!-- <input type="reset" value="Cancel" /> -->
+                </p>
+            </form>
+        </td>
+
+    </tr>
+</table>
+
+<!-- code to display list of courses-->
+<table>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Driver ID</th>
+            <th>Driver Name</th>
+            <th>Car Model</th>
+            <th>Drive Class</th>
+            <th>Course Name</th>
+            <th>Run Num</th>
+            <th>Time</th>
+            <th>Cones</th>
+            <th>WD</th>
+            <th>Run Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for singlelist in run_detail %}
+        {% if singlelist[3] == None %}
+            {% set sFlag = "" %} 
+        {% elif singlelist[3] <= 25 %}
+            {% set sFlag = "(J)" %}
+        {% endif %}
+        <tr>
+                <th>{{singlelist[0]}}</th>
+                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                <th>{{singlelist[4]}}</th>
+                <th>{{singlelist[5]}}</th>
+                <th>{{singlelist[6]}}</th>
+                <th>{{singlelist[7]}}</th>
+                <th>{{singlelist[8]}}</th>
+                <th>{{singlelist[9]}}</th>
+                <th>{{singlelist[10]}}</th>
+                <th>{{singlelist[11]}}</th>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
