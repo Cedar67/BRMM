@@ -3,9 +3,18 @@
 <!-- driver_list is the variable passed in containing the list of drivers -->
 <!-- Add code to display a list of drivers -->
 
-<h2>Driver List</h2>
+<h2>Search Driver</h2>
 
-<!-- code to display list of courses-->
+<form id="driver_form" name="driver_form" action="/searchdriver/filter" method="post">
+
+    <p>
+        <label>Driver Name: </label>
+        <input type="text" value="{{drivername}}" name="driver">
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<!-- code to display list of drivers-->
 <table>
     <table class="table table-bordered">
     <thead>
@@ -14,22 +23,30 @@
             <th>Driver Name</th>
             <th>Car Model</th>
             <th>Drive Class</th>
+            <th>Caregiver</th>
+            <th>Age</th>
         </tr>
     </thead>
     <tbody>
     {% for singlelist in driver_list %}
         {% set sFlag = "" %} 
-        {% if singlelist[4] == None %}
+        {% if singlelist[3] == None %}
             <tr>
-        {% elif singlelist[4] <= 25 %}
+        {% elif singlelist[3] <= 25 %}
             {% set sFlag = "(J)" %}
             <tr class="table-warning">
         {% endif %}
                 <th>{{singlelist[0]}}</th>
-                <th><a href="rundetail?driverid={{singlelist[0]}}">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</a></th>
-                <th>{{singlelist[8]}}</th>
-                <th>{{singlelist[9]}}</th>
-        </tr>
+                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                <th>{{singlelist[4]}}</th>
+                <th>{{singlelist[5]}}</th>
+                {% if singlelist[6] == None %}
+                    <th></th>
+                {% else %}
+                    <th>{{singlelist[6]}} {{singlelist[7]}}</th>
+                {% endif %}
+                <th>{{singlelist[3]}}</th>  
+            </tr>
     {% endfor %}
     </tbody>
 </table>
