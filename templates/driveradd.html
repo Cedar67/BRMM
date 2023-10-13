@@ -1,0 +1,36 @@
+{% extends "admin.html" %}
+{% block content %}
+<!-- driver_list is the variable passed in containing the list of drivers -->
+<!-- Add code to display a list of drivers -->
+
+<h2>Driver List</h2>
+
+<!-- code to display list of courses-->
+<table>
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Driver ID</th>
+            <th>Driver Name</th>
+            <th>Car Model</th>
+            <th>Drive Class</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for singlelist in driver_list %}
+        {% set sFlag = "" %} 
+        {% if singlelist[4] == None %}
+            <tr>
+        {% elif singlelist[4] <= 25 %}
+            {% set sFlag = "(J)" %}
+            <tr class="table-warning">
+        {% endif %}
+                <th>{{singlelist[0]}}</th>
+                <th><a href="rundetail?driverid={{singlelist[0]}}">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</a></th>
+                <th>{{singlelist[8]}}</th>
+                <th>{{singlelist[9]}}</th>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
