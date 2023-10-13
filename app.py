@@ -310,4 +310,35 @@ def driveradd():
 
 @app.route("/searchdriver")
 def searchdriver():
-    return render_template("driversearch.html")
+    connection = getCursor()
+    sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
+                car.model, car.drive_class, d2.first_name, d2.surname FROM driver d1  
+                INNER JOIN car ON d1.car = car.car_num
+                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id;"""
+
+    connection.execute(sql)
+    driverList = connection.fetchall()
+    for list in driverList:
+        print(list)
+
+    return render_template("driversearch.html", driver_list = driverList)
+
+
+
+@app.route("/searchdriver/filter", methods=["POST"])
+def searchdriverfilter():
+    driverName = request.form.get('driver')
+    connection = getCursor()
+    sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
+                car.model, car.drive_class, d2.first_name, d2.surname FROM driver d1  
+                INNER JOIN car ON d1.car = car.car_num
+                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id    
+                WHERE d1.first_name like %s OR d1.surname like %s
+                ORDER BY d1.first_name, d1.surname;"""
+    parameters = (f'%{driverName}%',f'%{driverName}%',)
+    connection.execute(sql,parameters)
+    driverList = connection.fetchall()
+    for list in driverList:
+        print(list)
+        
+    return render_template("driversearch.html", driver_list = driverList)  
