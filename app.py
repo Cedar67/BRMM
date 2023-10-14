@@ -122,7 +122,8 @@ def listjunior():
     sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
                 car.model, car.drive_class, d2.first_name, d2.surname FROM driver d1  
                 INNER JOIN car ON d1.car = car.car_num
-                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id;"""
+                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id
+                ORDER BY d1.age DESC, d1.surname;"""
 
     connection.execute(sql)
     driverList = connection.fetchall()
@@ -162,7 +163,7 @@ def rundetail():
             INNER JOIN car ON driver.car = car.car_num
             INNER JOIN run ON driver.driver_id = run.dr_id
             INNER JOIN course ON course.course_id = run.crs_id
-            order by driver.first_name;"""
+            order by driver.surname;"""
     connection.execute(sql)
     driverList = connection.fetchall()
 
@@ -314,7 +315,8 @@ def searchdriver():
     sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
                 car.model, car.drive_class, d2.first_name, d2.surname FROM driver d1  
                 INNER JOIN car ON d1.car = car.car_num
-                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id;"""
+                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id
+                ORDER BY d1.surname;"""
 
     connection.execute(sql)
     driverList = connection.fetchall()
@@ -334,7 +336,7 @@ def searchdriverfilter():
                 INNER JOIN car ON d1.car = car.car_num
                 LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id    
                 WHERE d1.first_name like %s OR d1.surname like %s
-                ORDER BY d1.first_name, d1.surname;"""
+                ORDER BY d1.surname, d1.first_name;"""
     parameters = (f'%{driverName}%',f'%{driverName}%',)
     connection.execute(sql,parameters)
     driverList = connection.fetchall()
