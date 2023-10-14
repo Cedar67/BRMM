@@ -229,7 +229,7 @@ def runedit():
             INNER JOIN car ON driver.car = car.car_num
             INNER JOIN run ON driver.driver_id = run.dr_id
             INNER JOIN course ON course.course_id = run.crs_id
-            order by driver.first_name;"""
+            order by driver.surname;"""
     connection.execute(sql)
     driverList = connection.fetchall()
 
@@ -281,7 +281,7 @@ def runedit():
         parameters = ()
 
     # Order by course id
-    sql3 = "ORDER BY run.crs_id;"""
+    sql3 = "ORDER BY run.crs_id, driver.surname;"""
 
     # Combine all of the SQL parts into one SQL string. 
     # SQL2 will be "" if no value passed. 
