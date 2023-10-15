@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- driver_list is the variable passed in containing the list of drivers -->
+<!-- Add code to display a list of drivers -->
+
+<h2>Overall Results</h2>
+
+
+<!-- code to display list of courses-->
+<table>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Driver ID</th>
+            <th>Driver Name</th>
+            <th>Car Model</th>
+            <th>Course A</th>
+            <th>Course B</th>
+            <th>Course C</th>
+            <th>Course D</th>
+            <th>Course E</th>
+            <th>Course F</th>
+            <th>Overall Result</th>
+            <th>Award</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for singlelist in run_detail %}
+        {% if singlelist[3] == None %}
+            {% set sFlag = "" %} 
+        {% elif singlelist[3] <= 25 %}
+            {% set sFlag = "(J)" %}
+        {% endif %}
+        <tr>
+                <th>{{singlelist[0]}}</th>
+                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                <th>{{singlelist[4]}}</th>
+                <th>{{singlelist[5]}}</th>
+                <th>{{singlelist[6]}}</th>
+                <th>{{singlelist[7]}}</th>
+
+                {% if singlelist[8] == None %}
+                    <th></th>
+                {% else %}
+                    <th>{{singlelist[8]}}</th>
+                {% endif %}
+
+                {% if singlelist[9] == None %}
+                    <th>0</th>
+                {% else %}
+                    <th>{{singlelist[9]}}</th>
+                {% endif %}
+                <th>{{singlelist[10]}}</th>
+                <th>{{singlelist[11]}}</th>
+                <th>{{singlelist[12]}}</th>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

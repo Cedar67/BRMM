@@ -24,29 +24,31 @@ def getCursor():
     dbconn = connection.cursor()
     return dbconn
 
+
+
 def runsCalculate(runDetail):
     # Calculate the Run Totals
-    # Return a list including the run id, course type, driver id, basic time, cones hit, WD status and the Run Totals.
+    # Return a list including the course type, driver id, time, cones hit, WD status and the Run Totals.
 
-    # Convert the dictionary data into a list that displays the required data fields
+    # Define the list include Run totals
     update_list = []
 
     for listRun in runDetail:
-        # Calculate WD time and make WD Value as Yes/No
-        if listRun[10] == 1:
+        # Calculate WD time
+        if listRun[11] == 1:
             wd_time = 10
-        elif listRun[10] == 0:
+        elif listRun[11] == 0:
             wd_time = 0
-        elif listRun[10] == None:
+        elif listRun[11] == None:
             wd_time = 0
         else:
             print("\nerror: Invalid WD data\n")
             return -1
-        # Get basic time
-        if listRun[8] == None :
+        # Get time
+        if listRun[9] == None :
             time = 0
-        elif type(listRun[8]) in (float,int) :
-            time = listRun[8]
+        elif type(listRun[9]) in (float,int) :
+            time = listRun[9]
         else:
             print("\nerror: Invalid Time data\n")
             return -1
@@ -54,17 +56,17 @@ def runsCalculate(runDetail):
         time = Decimal(time).quantize(Decimal("0.00"))
 
         # Get num of cones
-        if listRun[9] == None:
+        if listRun[10] == None:
             cones_time = 0
-        elif type(listRun[9]) == int:
-            cones_time = listRun[9]
+        elif type(listRun[10]) == int:
+            cones_time = listRun[10]
         else:
             print("\nerror: Invalid Cones data\n")
             return -1
         # Calculate total time
         run_total = time + cones_time*5 + wd_time
 
-        # Put into a list with the run id, course type, driver id, basic time, cones hit, WD status and the Run Totals.
+        # Put into a list with the course type, driver id, basic time, cones hit, WD status and the Run Totals.
         run = (
                 listRun[0],
                 listRun[1],
@@ -77,10 +79,43 @@ def runsCalculate(runDetail):
                 listRun[8],
                 listRun[9],
                 listRun[10],
+                listRun[11],
                 run_total)
         update_list.append(list(run))
 
     return update_list
+
+
+
+def overallCalculate(runDetail):
+    # Calculate the Overall Results and add it into return list
+
+    # Sort Run Details list
+    # Sort rule: first by surname, then by firstname, then by Course ID, then by Run Total.
+    sort_list = sorted(runDetail, key=lambda x:(x[2],x[1],x[6],x[12]))
+    cover_list = []
+    new_list = []
+    j = 0
+    while j<len(sort_list):
+        list = []
+        # list.append(sort_list[j][0])
+        # list.append(sort_list[j][1])
+        # list.append(sort_list[j][2])
+        # list.append(sort_list[j][3])
+        # list.append(sort_list[j][4])
+        # list.append(sort_list[j][5])
+        for i in range(0, 6):
+            list.append(sort_list[j][i])
+
+        for i in range(1, 13):
+            list.append(sort_list[j][12])
+            j=j+1
+        j=j+1
+
+        new_list.append(list)
+
+    return new_list
+
 
 
 @app.route("/")
@@ -169,7 +204,7 @@ def rundetail():
 
     connection = getCursor()
     sql1 = """  SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
-                car.model, car.drive_class, course.name, 
+                car.model, car.drive_class, run.crs_id, course.name, 
                 run.run_num, run.seconds, run.cones, run.wd
 				FROM driver 
                 INNER JOIN car ON driver.car = car.car_num
@@ -217,6 +252,74 @@ def rundetail():
         print(list)
     
     return render_template("rundetail.html", run_detail = runDetailUpdate, driver_List = driverList, defaul_driver = defaulDriver)  
+
+
+
+@app.route("/overall", methods=['GET'])
+def overall():
+    # Get driver name list and order by first name
+    connection = getCursor()
+    sql=""" SELECT distinct driver.driver_id, driver.first_name, driver.surname
+            FROM driver
+            INNER JOIN car ON driver.car = car.car_num
+            INNER JOIN run ON driver.driver_id = run.dr_id
+            INNER JOIN course ON course.course_id = run.crs_id
+            order by driver.surname;"""
+    connection.execute(sql)
+    driverList = connection.fetchall()
+
+    connection = getCursor()
+    sql1 = """  SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
+                car.model, car.drive_class, run.crs_id, course.name, 
+                run.run_num, run.seconds, run.cones, run.wd
+				FROM driver 
+                INNER JOIN car ON driver.car = car.car_num
+                INNER JOIN run ON driver.driver_id = run.dr_id
+                INNER JOIN course ON course.course_id = run.crs_id"""
+    
+    if request.method == 'POST':
+        # Get driver id that user selects from rundetail.html
+        driverId = request.form.get('driver')
+    elif request.method == 'GET':
+        # Get driver id that user clicks from driverlist.html
+        driverId = request.args.get('driverid')
+
+    #If driverId can be converted to an integer, convert to integer, otherwise set to None.
+    try:
+        driverId=int(driverId)
+    except:
+        driverId=None
+
+    defaulDriver = None
+    # if request.method == 'POST' and driverId is not None:
+    if driverId is not None:
+        sql2 = "where driver.driver_id = %s"
+        parameters = (driverId,)
+        defaulDriver = driverId
+    else:
+        sql2 = ""
+        parameters = ()
+
+    # Order by course id
+    sql3 = "ORDER BY run.crs_id;"""
+
+    # Combine all of the SQL parts into one SQL string. 
+    # SQL2 will be "" if no value passed. 
+    # Spaces avoid errors if no space between the strings.
+    sql = sql1 + ' ' + sql2 + ' ' +sql3
+    connection.execute(sql, parameters)
+    runDetail = connection.fetchall()
+    
+    # Calculate the Run Total
+    runDetailUpdate = runsCalculate(runDetail)
+    
+    overallResults = overallCalculate(runDetailUpdate)
+
+    # Debug print
+    for list in overallResults:
+        print(list)
+    
+    return render_template("overall.html", run_detail = overallResults, driver_List = driverList, defaul_driver = defaulDriver)  
 
 
 
