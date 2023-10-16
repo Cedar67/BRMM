@@ -217,12 +217,30 @@ def listcourses():
 
 @app.route("/graph")
 def showgraph():
+
     connection = getCursor()
+    sql = """  SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
+                car.model, car.drive_class, run.crs_id, course.name, 
+                run.run_num, run.seconds, run.cones, run.wd
+				FROM driver 
+                INNER JOIN car ON driver.car = car.car_num
+                INNER JOIN run ON driver.driver_id = run.dr_id
+                INNER JOIN course ON course.course_id = run.crs_id
+                ORDER BY run.crs_id;"""
+    connection.execute(sql)
+    runDetail = connection.fetchall()
+    
+    # Calculate the Run Total
+    runDetailUpdate = runsCalculate(runDetail)
+    
+    # Calculate the Overall Result
+    overallResults = overallCalculate(runDetailUpdate)
     # Insert code to get top 5 drivers overall, ordered by their final results.
     # Use that to construct 2 lists: bestDriverList containing the names, resultsList containing the final result values
     # Names should include their ID and a trailing space, eg '133 Oliver Ngatai '
-    bestDriverList = {}
-    resultsList = {}
+    # bestDriverList = {1,2}
+    resultsList = {3,40}
+    bestDriverList = {'apple ','mango ','banana ','pear ','test '}
     return render_template("top5graph.html", name_list = bestDriverList, value_list = resultsList)
 
 
@@ -351,6 +369,7 @@ def overall():
     # Calculate the Run Total
     runDetailUpdate = runsCalculate(runDetail)
     
+    # Calculate the Overall Result
     overallResults = overallCalculate(runDetailUpdate)
 
     # Debug print

@@ -12,6 +12,8 @@
     <h2>Bar Graph</h2>
     <div id="myHBarPlot" style="width:100%; max-width:3200px;"></div>
 
+
+
     <script>
         // Note SPACE after each fruit name so gap before horizontal bars
         const priceList = [72.5,20.0,34.5, 100, 60];
@@ -19,9 +21,14 @@
         // REPLACE constants above with passed in variables.
         // Use the '|safe' Jinja filter to mark them as safe (prevents your data being html-escaped). eg,
         // var myList = {{ list_from_py | safe }}
+        // var resultList = {{value_list | safe}};
+        // var driverList = {{name_list | safe}};
 
+        var driverList = {{name_list|safe}};
+        
         // Define graph data
-        const data = [{ x: priceList,  y: fruitList,  type:"bar", orientation:"h", marker: {color:"blue"} }];
+        // const data = [{ x: resultList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"blue"} }];
+        const data = [{ x: priceList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"blue"} }];
 
         // Define graph layout. Excluded a y-axis title as fruit names are self-explanatory.
         const layout = {  
