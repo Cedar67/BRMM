@@ -93,28 +93,66 @@ def overallCalculate(runDetail):
     # Sort Run Details list
     # Sort rule: first by surname, then by firstname, then by Course ID, then by Run Total.
     sort_list = sorted(runDetail, key=lambda x:(x[2],x[1],x[6],x[12]))
-    cover_list = []
-    new_list = []
+
+    # Put all courses results of one driver into one list
+    temp_list = []
     j = 0
     while j<len(sort_list):
         list = []
-        # list.append(sort_list[j][0])
-        # list.append(sort_list[j][1])
-        # list.append(sort_list[j][2])
-        # list.append(sort_list[j][3])
-        # list.append(sort_list[j][4])
-        # list.append(sort_list[j][5])
         for i in range(0, 6):
             list.append(sort_list[j][i])
 
         for i in range(1, 13):
             list.append(sort_list[j][12])
             j=j+1
-        j=j+1
+        temp_list.append(list)
 
-        new_list.append(list)
 
-    return new_list
+    # Calculate the overall result
+    overall_list = []
+    for list in temp_list:
+        list2 = []
+        overallResult = 0.0
+        for i in range(0, 6):
+            list2.append(list[i])
+        # Choose the best of two run results for each course
+        for i in range(6, 18, 2):
+            if list[i+1] == 0.0:
+                list2.append(0.0)
+                overallResult = 999999  # overallResult Value 999999 means NQ
+            elif list[i] == 0.0:
+                list2.append(list[i+1])
+            else:
+                list2.append(min(list[i],list[i+1]))
+        
+        # Calculate the overall result
+        if overallResult != 999999:
+            for i in range(6, 12):
+                overallResult = Decimal(overallResult).quantize(Decimal("0.00"))
+                overallResult = list2[i] + overallResult
+        
+        list2.append(overallResult)
+
+        overall_list.append(list2)
+
+    # Sort Overall Results list
+    # Sort rule: first by Overall Results, then by surname, then by firstname.
+    overall_list = sorted(overall_list, key=lambda x:(x[12],x[2],x[1]))
+    
+    # Winner get "cup" flag, the next 4 get "prize" flag
+    resultsNum = len(overall_list)
+    if resultsNum > 4:
+        overall_list[0].append("cup")
+        for i in range(1, 5):
+            overall_list[i].append("prize")
+    elif resultsNum == 1:
+        overall_list[0].append("cup")
+    elif resultsNum < 5:
+        overall_list[0].append("cup")
+        for i in range(1, resultsNum):
+            overall_list[i].append("prize")
+
+    return overall_list
 
 
 

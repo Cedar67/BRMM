@@ -14,6 +14,7 @@
             <th>Driver ID</th>
             <th>Driver Name</th>
             <th>Car Model</th>
+            <th>Drive Class</th>
             <th>Course A</th>
             <th>Course B</th>
             <th>Course C</th>
@@ -52,7 +53,12 @@
                 {% endif %}
                 <th>{{singlelist[10]}}</th>
                 <th>{{singlelist[11]}}</th>
-                <th>{{singlelist[12]}}</th>
+                {% if singlelist[12] == 999999 %}
+                    <th>NQ</th>
+                {% else %}
+                    <th>{{singlelist[12]}}</th>
+                {% endif %}
+                <th>{{singlelist[13]}}</th>
         </tr>
     {% endfor %}
     </tbody>
