@@ -73,8 +73,14 @@
                 {% else %}
                     <th>{{singlelist[10]}}</th>
                 {% endif %}
+
                 <th>{{singlelist[11]}}</th>
-                <th>{{singlelist[12]}}</th>
+
+                {% if singlelist[12] == 0 %}
+                    <th>0.0</th>
+                {% else %}
+                    <th>{{singlelist[12]}}</th>
+                {% endif %}
         </tr>
     {% endfor %}
     </tbody>
