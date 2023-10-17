@@ -86,12 +86,28 @@
                 <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
                 <th>{{singlelist[4]}}</th>
                 <th>{{singlelist[5]}}</th>
-                <th>{{singlelist[6]}}</th>
                 <th>{{singlelist[7]}}</th>
                 <th>{{singlelist[8]}}</th>
-                <th>{{singlelist[9]}}</th>
-                <th>{{singlelist[10]}}</th>
+
+                {% if singlelist[9] == None %}
+                    <th>0.0</th>
+                {% else %}
+                    <th>{{singlelist[9]}}</th>
+                {% endif %}
+
+                {% if singlelist[10] == None %}
+                    <th>0</th>
+                {% else %}
+                    <th>{{singlelist[10]}}</th>
+                {% endif %}
+
                 <th>{{singlelist[11]}}</th>
+
+                {% if singlelist[12] == 0 %}
+                    <th>0.0</th>
+                {% else %}
+                    <th>{{singlelist[12]}}</th>
+                {% endif %}
         </tr>
     {% endfor %}
     </tbody>

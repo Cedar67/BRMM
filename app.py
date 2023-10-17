@@ -240,10 +240,15 @@ def showgraph():
     # Insert code to get top 5 drivers overall, ordered by their final results.
     # Use that to construct 2 lists: bestDriverList containing the names, resultsList containing the final result values
     # Names should include their ID and a trailing space, eg '133 Oliver Ngatai '
-    # bestDriverList = {1,2}
+
     bestDriverList = []
+    juniorFlag = ""
     for i in range(0, 5):
-        bestDriverList.append("  "+str(overallResults[i][0])+" " + overallResults[i][1] + " " + overallResults[i][2] + " " )
+        if overallResults[i][3] == None:
+            juniorFlag = ""
+        elif overallResults[i][3] <=25:
+            juniorFlag = " (J)"
+        bestDriverList.append("  "+str(overallResults[i][0])+" " + overallResults[i][1] + " " + overallResults[i][2] + juniorFlag + " " )
 
     bestResultsList = []
     for i in range(0, 5):
@@ -414,7 +419,7 @@ def runedit():
 
     connection = getCursor()
     sql1 = """  SELECT driver.driver_id, driver.first_name, driver.surname, driver.age, 
-                car.model, car.drive_class, course.name, 
+                car.model, car.drive_class, run.crs_id, course.name, 
                 run.run_num, run.seconds, run.cones, run.wd
 				FROM driver 
                 INNER JOIN car ON driver.car = car.car_num
