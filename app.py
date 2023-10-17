@@ -53,7 +53,8 @@ def runsCalculate(runDetail):
             print("\nerror: Invalid Time data\n")
             return -1
         # Make sure time is recorded to the nearest 0.01 of a second
-        time = Decimal(time).quantize(Decimal("0.00"))
+        # time = Decimal(time).quantize(Decimal("0.00"))
+        time = round(time,2)
 
         # Get num of cones
         if listRun[10] == None:
@@ -128,7 +129,8 @@ def overallCalculate(runDetail):
         # Calculate the overall result
         if overallResult != 999999:
             for i in range(6, 12):
-                overallResult = Decimal(overallResult).quantize(Decimal("0.00"))
+                # overallResult = Decimal(overallResult).quantize(Decimal("0.00"))
+                overallResult = round(overallResult,2)
                 overallResult = list2[i] + overallResult
         
         list2.append(overallResult)
@@ -239,9 +241,19 @@ def showgraph():
     # Use that to construct 2 lists: bestDriverList containing the names, resultsList containing the final result values
     # Names should include their ID and a trailing space, eg '133 Oliver Ngatai '
     # bestDriverList = {1,2}
-    resultsList = {3,40}
-    bestDriverList = {'apple ','mango ','banana ','pear ','test '}
-    return render_template("top5graph.html", name_list = bestDriverList, value_list = resultsList)
+    bestDriverList = []
+    for i in range(0, 5):
+        bestDriverList.append("  "+str(overallResults[i][0])+" " + overallResults[i][1] + " " + overallResults[i][2] + " " )
+
+    bestResultsList = []
+    for i in range(0, 5):
+        bestResultsList.append(overallResults[i][12])
+
+    #Debug info
+    print(bestDriverList)
+    print(bestResultsList)
+    
+    return render_template("top5graph.html", name_list = bestDriverList, value_list = bestResultsList)
 
 
 
