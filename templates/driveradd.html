@@ -3,34 +3,108 @@
 <!-- driver_list is the variable passed in containing the list of drivers -->
 <!-- Add code to display a list of drivers -->
 
-<h2>Driver List</h2>
+<h2>Add Driver</h2>
 
-<!-- code to display list of courses-->
-<table>
-    <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Driver ID</th>
-            <th>Driver Name</th>
-            <th>Car Model</th>
-            <th>Drive Class</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for singlelist in driver_list %}
-        {% set sFlag = "" %} 
-        {% if singlelist[4] == None %}
-            <tr>
-        {% elif singlelist[4] <= 25 %}
-            {% set sFlag = "(J)" %}
-            <tr class="table-warning">
-        {% endif %}
-                <th>{{singlelist[0]}}</th>
-                <th><a href="rundetail?driverid={{singlelist[0]}}">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</a></th>
-                <th>{{singlelist[8]}}</th>
-                <th>{{singlelist[9]}}</th>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<!-- code to display input table for add driver-->
+
+<br>
+<form id="driver_form" name="driver_form" action="/driveraddnonjunior" method="post">
+    <p>
+        <table>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center" width="90">Driver Name</th>
+                    <th class="text-center" width="90">Car</th>
+                    <th class="text-center" width="90"></th>
+                    <th class="text-center" width="90"></th>
+                </tr> 
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>
+                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center">
+                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center">
+                    </td>
+                    <td>
+                        <select name="car" id="car" class="form-control input-sm text-center">
+                            <option selected>&lt; Select a car &gt;</option>
+                            {% for car in car_list %}
+                                <option value="{{car[0]}}">{{car[0]}} - {{car[1]}} {{car[2]}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    
+                    <td></td>
+                    <td></td>
+                </tr>
+                <!-- <tr>
+                    <td>
+                        <input type="submit" value="Add" class="form-control input-sm text-center" width="90"/>
+                </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </p>
+        <input type="submit" value="Submit To Add One Non-Junior Driver"/>
+</form>
+
+<br>
+<br>
+<br>
+
+<form id="juniordriver_form" name="juniordriver_form" action="/driveraddjunior" method="post">
+    <p>
+        <table>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center" width="90">Driver Name</th>
+                    <th class="text-center" width="90">Car</th>
+                    <th class="text-center" width="90">Caregiver</th>
+                    <th class="text-center" width="90">Birthday</th>
+                </tr> 
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>
+                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center">
+                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center">
+                    </td>
+                    <td>
+                        <select name="car" id="car" class="form-control input-sm text-center">
+                            <option selected>&lt; Select a car &gt;</option>
+                            {% for car in car_list %}
+                                <option value="{{car[0]}}">{{car[0]}} - {{car[1]}} {{car[2]}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    
+                    <td>
+                        <select name="caregiver" id="caregiver" class="form-control input-sm text-center">
+                            <option selected>&lt; Select a caregiver &gt;</option>
+                            {% for caregiver in caregiver_list %}
+                                <option value="{{caregiver[0]}}">{{caregiver[0]}} - {{caregiver[1]}} {{caregiver[2]}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><input type="text" value="" name="birthday" class="form-control input-sm text-center" placeholder="DD/MM/YYYY"></td>
+                </tr>
+                <!-- <tr>
+                    <td>
+                        <input type="submit" value="Add" class="form-control input-sm text-center" width="90"/>
+                </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </p>
+
+    <p>
+        <input type="submit" value="Submit To Add One Junior Driver"/>
+    </p>
+</form>
+
+
 {% endblock %}

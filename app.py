@@ -485,7 +485,6 @@ def runedit():
 
 
 
-
 @app.route("/runedit/update", methods=["POST"])
 def runeditupdate():
     driverid = request.form.get('driverid')
@@ -494,6 +493,7 @@ def runeditupdate():
     time = request.form.get('time')
     cone = request.form.get('cone')
     wd = request.form.get('wd')
+
     connection = getCursor()
     sql = """   UPDATE run 
                 SET seconds = %s, cones = %s, wd = %s
@@ -506,9 +506,111 @@ def runeditupdate():
 
 
 
-@app.route("/driveradd")
+@app.route("/driveradd", methods=["GET"])
 def driveradd():
-    return render_template("driveradd.html")
+    # Get caregiver list and order by surname
+    connection = getCursor()
+    sql=""" SELECT driver.driver_id, driver.first_name, driver.surname
+            FROM driver
+            where driver.age > 25 or driver.age is null
+            order by driver.surname, driver.first_name;"""
+    connection.execute(sql)
+    caregiverList = connection.fetchall()
+
+    # Get car list and order by car_num
+    connection = getCursor()
+    sql=""" SELECT * FROM car order by car.car_num;"""
+    connection.execute(sql)
+    carList = connection.fetchall()
+
+    for list in carList:
+        print(list)
+    for list in caregiverList:
+        print(list)
+
+    return render_template("driveradd.html", caregiver_list = caregiverList, car_list= carList)
+
+
+
+@app.route("/driveraddnonjunior", methods=["POST"])
+def driveraddnonjunior():
+
+    # Get course id list
+    connection = getCursor()
+    sql=""" SELECT course.course_id FROM course;"""
+    connection.execute(sql)
+    courseList = connection.fetchall()
+
+
+    # Get firstname/surname/carId from driveradd.html
+    firstname = request.form.get('firstname')
+    surname = request.form.get('surname')
+    carId = request.form.get('car')
+
+
+    # Insert driver data into driver table
+    connection = getCursor()
+    sql1 = """   INSERT INTO driver (first_name, surname, car)
+                VALUES (%s, %s, %s);"""
+    sql2 = """   SELECT max(driver_id) FROM driver;"""
+    parameters = (firstname,surname,carId,)
+    connection.execute(sql1,parameters)
+    connection.execute(sql2)
+    driverId = connection.fetchall()
+
+
+    # Insert init run data into run table
+    connection = getCursor()
+    sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
+                VALUES (%s, %s, %s, %s, %s, %s);"""
+    for courseId in courseList:
+        for i in range(1,3):
+            parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
+            connection.execute(sql,parameters)
+            print(parameters)
+
+    # return render_template("driversearch.html", driver_list = firstname)
+    return redirect("/searchdriver")
+
+
+
+@app.route("/driveraddjunior", methods=["POST"])
+def driveraddjunior():
+    # Get course id list
+    connection = getCursor()
+    sql=""" SELECT course.course_id FROM course;"""
+    connection.execute(sql)
+    courseList = connection.fetchall()
+
+    # Get firstname/surname/carId from driveradd.html
+    firstname = request.form.get('firstname')
+    surname = request.form.get('surname')
+    carId = request.form.get('car')
+    caregiver = request.form.get('caregiver')
+    birthday = request.form.get('birthday')
+
+    # Insert driver data into driver table
+    connection = getCursor()
+    sql1 = """   INSERT INTO driver (first_name, surname, date_of_birth, age, caregiver, car)
+                VALUES (%s, %s, %s, %s, %s, %s);"""
+    sql2 = """   SELECT max(driver_id) FROM driver;"""
+    parameters = (firstname,surname,carId,)
+    connection.execute(sql1,parameters)
+    connection.execute(sql2)
+    driverId = connection.fetchall()
+
+    # Insert init run data into run table
+    connection = getCursor()
+    sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
+                VALUES (%s, %s, %s, %s, %s, %s);"""
+    for courseId in courseList:
+        for i in range(1,3):
+            parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
+            connection.execute(sql,parameters)
+            print(parameters)
+
+    # return render_template("driversearch.html", driver_list = firstname)
+    return redirect("/searchdriver")
 
 
 
@@ -535,7 +637,8 @@ def searchdriverfilter():
     driverName = request.form.get('driver')
     connection = getCursor()
     sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
-                car.model, car.drive_class, d2.first_name, d2.surname FROM driver d1  
+                car.model, car.drive_class, d2.first_name, d2.surname 
+                FROM driver d1  
                 INNER JOIN car ON d1.car = car.car_num
                 LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id    
                 WHERE d1.first_name like %s OR d1.surname like %s
