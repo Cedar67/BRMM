@@ -26,6 +26,41 @@ def getCursor():
 
 
 
+def ageCalculate(birthday):
+
+    while True:
+        # birthday format: 19/10/2023
+        try:
+            Y=int(birthday[:4])
+            M=int(birthday[4:6])
+            D=int(birthday[6:])
+
+            r_date=datetime.date(Y,M,D)
+            #  check the birthday if it is later than current date
+            if Y>datetime.datetime.now().year or (Y==datetime.datetime.now().year and M>=datetime.datetime.now().month and D>datetime.datetime.now().day):
+                return -1
+            else:
+
+                today = str(datetime.datetime.now().strftime('%Y-%m-%d')).split("-")
+                n_monthandday=today[1] + today[2]
+                n_year=today[0]
+                r_monthandday=birthday[4:]
+                r_year=birthday[:4]
+
+                if (int(n_monthandday)>=int(r_monthandday)):
+
+                    age=int(n_year)-int(r_year)
+                else:
+                    age=int(n_year)-int(r_year)-1
+
+                break
+        except:
+            return -1
+
+    return age
+
+
+
 def runsCalculate(runDetail):
     # Calculate the Run Totals
     # Return a list including the course type, driver id, time, cones hit, WD status and the Run Totals.
