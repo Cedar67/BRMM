@@ -39,25 +39,11 @@
                 <th>{{singlelist[5]}}</th>
                 <th>{{singlelist[6]}}</th>
                 <th>{{singlelist[7]}}</th>
-
-                {% if singlelist[8] == None %}
-                    <th></th>
-                {% else %}
-                    <th>{{singlelist[8]}}</th>
-                {% endif %}
-
-                {% if singlelist[9] == None %}
-                    <th>0</th>
-                {% else %}
-                    <th>{{singlelist[9]}}</th>
-                {% endif %}
+                <th>{{singlelist[8]}}</th>
+                <th>{{singlelist[9]}}</th>
                 <th>{{singlelist[10]}}</th>
                 <th>{{singlelist[11]}}</th>
-                {% if singlelist[12] == 999999 %}
-                    <th>NQ</th>
-                {% else %}
-                    <th>{{singlelist[12]}}</th>
-                {% endif %}
+                <th>{{singlelist[12]}}</th>
                 <th>{{singlelist[13]}}</th>
         </tr>
     {% endfor %}

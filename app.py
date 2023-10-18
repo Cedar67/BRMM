@@ -116,10 +116,11 @@ def overallCalculate(runDetail):
         overallResult = 0.0
         for i in range(0, 6):
             list2.append(list[i])
-        # Choose the best of two run results for each course
+        # Choose the best of both run results for each course
+        # Set "dnf" flag to course result which both run results are 0.0
         for i in range(6, 18, 2):
             if list[i+1] == 0.0:
-                list2.append(0.0)
+                list2.append("dnf")
                 overallResult = 999999  # overallResult Value 999999 means NQ
             elif list[i] == 0.0:
                 list2.append(list[i+1])
@@ -152,6 +153,11 @@ def overallCalculate(runDetail):
         overall_list[0].append("cup")
         for i in range(1, resultsNum):
             overall_list[i].append("prize")
+
+    # Set "NQ" flag to overall result
+    for i in range(0, resultsNum):
+        if overall_list[i][12] == 999999:
+            overall_list[i][12] = "NQ"
 
     return overall_list
 
