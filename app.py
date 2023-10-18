@@ -129,10 +129,9 @@ def overallCalculate(runDetail):
         # Calculate the overall result
         if overallResult != 999999:
             for i in range(6, 12):
-                # overallResult = Decimal(overallResult).quantize(Decimal("0.00"))
-                overallResult = round(overallResult,2)
                 overallResult = list2[i] + overallResult
         
+        overallResult = round(overallResult,2)
         list2.append(overallResult)
 
         overall_list.append(list2)
@@ -477,6 +476,27 @@ def runedit():
         print(list)
     
     return render_template("runedit.html", run_detail = runDetailUpdate, driver_List = driverList, course_List = courseList, defaul_driver = defaulDriver, defaul_course = defaulCourse)  
+
+
+
+
+@app.route("/runedit/update", methods=["POST"])
+def runeditupdate():
+    driverid = request.form.get('driverid')
+    courseid = request.form.get('courseid')
+    runnum = request.form.get('runnum')
+    time = request.form.get('time')
+    cone = request.form.get('cone')
+    wd = request.form.get('wd')
+    connection = getCursor()
+    sql = """   UPDATE run 
+                SET seconds = %s, cones = %s, wd = %s
+                WHERE dr_id = %s AND crs_id = %s AND run_num = %s;"""
+    parameters = (time,cone,wd,driverid,courseid,runnum,)
+    connection.execute(sql,parameters)
+    connection.fetchall()
+
+    return redirect("/runedit")
 
 
 

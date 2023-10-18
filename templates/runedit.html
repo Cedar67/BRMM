@@ -39,7 +39,7 @@
                         {% if defaul_course == None %}
                             <option selected>&lt; Select a course &gt;</option>
                         {% else %}
-                            <option value="{{defaul_course}}" selected> {{defaul_course}} - {{run_detail[0][6]}}</option>
+                            <option value="{{defaul_course}}" selected> {{defaul_course}} - {{run_detail[0][7]}}</option>
                         {% endif %}
 
                         <option>&lt; Select all courses &gt;</option>
@@ -62,16 +62,16 @@
     <table class="table table-striped">
     <thead>
         <tr>
-            <th>Driver ID</th>
-            <th>Driver Name</th>
-            <th>Car Model</th>
-            <th>Drive Class</th>
-            <th>Course Name</th>
-            <th>Run Num</th>
-            <th>Time</th>
-            <th>Cones</th>
-            <th>WD</th>
-            <th>Run Total</th>
+            <th class="text-center" width="90">Driver ID</th>
+            <th class="text-center" width="200">Driver Name</th>
+            <th class="text-center" width="100">Car Model</th>
+            <th class="text-center" width="110">Drive Class</th>
+            <th class="text-center" width="200">Course Name</th>
+            <th class="text-center" width="90">Run Num</th>
+            <th class="text-center" width="100">Time</th>
+            <th class="text-center" width="80">Cones</th>
+            <th class="text-center" width="80">WD</th>
+            <th class="text-center" width="100">Run Total</th>
         </tr>
     </thead>
     <tbody>
@@ -81,33 +81,42 @@
         {% elif singlelist[3] <= 25 %}
             {% set sFlag = "(J)" %}
         {% endif %}
+
         <tr>
-                <th>{{singlelist[0]}}</th>
-                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
-                <th>{{singlelist[4]}}</th>
-                <th>{{singlelist[5]}}</th>
-                <th>{{singlelist[7]}}</th>
-                <th>{{singlelist[8]}}</th>
+            <form id="result_form" name="result_form" action="/runedit/update" method="post">
+                <td class="text-center">{{singlelist[0]}}</td>
+                <td class="text-center">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</td>
+                <td class="text-center">{{singlelist[4]}}</td>
+                <td class="text-center">{{singlelist[5]}}</td>
+                <td class="text-center">{{singlelist[7]}}</td>
+                <td class="text-center">{{singlelist[8]}}</td>
 
                 {% if singlelist[9] == None %}
-                    <th>0.0</th>
+                    <td><input type="text" value="0.0" name="time" class="form-control input-sm text-center"></td>
                 {% else %}
-                    <th>{{singlelist[9]}}</th>
+                    <td><input type="text" value="{{singlelist[9]}}" name="time" class="form-control input-sm text-center"></td>
                 {% endif %}
 
                 {% if singlelist[10] == None %}
-                    <th>0</th>
+                    <td><input type="text" value="0" name="cone" class="form-control input-sm text-center"></td>
                 {% else %}
-                    <th>{{singlelist[10]}}</th>
+                    <td><input type="text" value="{{singlelist[10]}}" name="cone" class="form-control input-sm text-center"></td>
                 {% endif %}
-
-                <th>{{singlelist[11]}}</th>
+                
+                <td><input type="text" value="{{singlelist[11]}}" name="wd" class="form-control input-sm text-center"></td>
 
                 {% if singlelist[12] == 0 %}
-                    <th>0.0</th>
+                    <td class="text-center" width="100">0.0</td>
                 {% else %}
-                    <th>{{singlelist[12]}}</th>
+                    <td class="text-center" width="100">{{singlelist[12]}}</td>
                 {% endif %}
+
+                <td> <input type="submit" value="Edit" /></td>
+                <td><input type="hidden" value="{{singlelist[0]}}" name="driverid" class="form-control input-sm"></td>
+                <td><input type="hidden" value="{{singlelist[6]}}" name="courseid" class="form-control input-sm"></td>
+                <td><input type="hidden" value="{{singlelist[8]}}" name="runnum" class="form-control input-sm"></td>
+                <!-- <td><button class="btn btn-success" type="submit">Edit</button></td> -->
+            </form>
         </tr>
     {% endfor %}
     </tbody>
