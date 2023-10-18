@@ -24,12 +24,13 @@
 
                 <tr>
                     <td>
-                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center">
-                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center">
+                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center" required>
+                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center" required>
                     </td>
                     <td>
-                        <select name="car" id="car" class="form-control input-sm text-center">
-                            <option selected>&lt; Select a car &gt;</option>
+                        <select name="car" id="car" class="form-control input-sm text-center" required>
+                            <!-- <option selected>&lt; Select a car &gt;</option> -->
+                            <option value="">&lt; Select a car &gt;</option>
                             {% for car in car_list %}
                                 <option value="{{car[0]}}">{{car[0]}} - {{car[1]}} {{car[2]}}</option>
                             {% endfor %}
@@ -70,12 +71,12 @@
 
                 <tr>
                     <td>
-                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center">
-                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center">
+                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center" required>
+                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center" required>
                     </td>
                     <td>
-                        <select name="car" id="car" class="form-control input-sm text-center">
-                            <option selected>&lt; Select a car &gt;</option>
+                        <select name="car" id="car" class="form-control input-sm text-center" required>
+                            <option value="" selected>&lt; Select a car &gt;</option>
                             {% for car in car_list %}
                                 <option value="{{car[0]}}">{{car[0]}} - {{car[1]}} {{car[2]}}</option>
                             {% endfor %}
@@ -83,14 +84,14 @@
                     </td>
                     
                     <td>
-                        <select name="caregiver" id="caregiver" class="form-control input-sm text-center">
-                            <option selected>&lt; Select a caregiver &gt;</option>
+                        <select name="caregiver" id="caregiver" class="form-control input-sm text-center" required>
+                            <option value="" selected>&lt; Select a caregiver &gt;</option>
                             {% for caregiver in caregiver_list %}
                                 <option value="{{caregiver[0]}}">{{caregiver[0]}} - {{caregiver[1]}} {{caregiver[2]}}</option>
                             {% endfor %}
                         </select>
                     </td>
-                    <td><input type="text" value="" name="birthday" class="form-control input-sm text-center" placeholder="DD/MM/YYYY"></td>
+                    <td><input type="text" value="" name="birthday" class="form-control input-sm text-center" placeholder="DD/MM/YYYY" required></td>
                 </tr>
                 <!-- <tr>
                     <td>
