@@ -676,12 +676,12 @@ def searchdriverfilter():
                 FROM driver d1  
                 INNER JOIN car ON d1.car = car.car_num
                 LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id    
-                WHERE d1.first_name like %s OR d1.surname like %s
+                WHERE concat(d1.first_name,' ' ,d1.surname) like %s
                 ORDER BY d1.surname, d1.first_name;"""
-    parameters = (f'%{driverName}%',f'%{driverName}%',)
+    parameters = (f'%{driverName}%',)
     connection.execute(sql,parameters)
     driverList = connection.fetchall()
     for list in driverList:
         print(list)
         
-    return render_template("driversearch.html", driver_list = driverList)  
+    return render_template("driversearch.html", driver_list = driverList, driver_name = driverName)  

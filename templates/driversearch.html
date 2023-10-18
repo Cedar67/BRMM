@@ -9,7 +9,7 @@
 
     <p>
         <label>Driver Name: </label>
-        <input type="text" value="{{drivername}}" name="driver">
+        <input type="text" value="{{driver_name}}" name="driver">
         <input type="submit" value="Search" />
     </p>
 </form>
@@ -45,7 +45,11 @@
                 {% else %}
                     <th>{{singlelist[6]}} {{singlelist[7]}}</th>
                 {% endif %}
-                <th>{{singlelist[3]}}</th>  
+                {% if singlelist[3] == None %}
+                    <th></th>
+                {% else %}
+                <th>{{singlelist[3]}}</th>
+                {% endif %}
             </tr>
     {% endfor %}
     </tbody>
