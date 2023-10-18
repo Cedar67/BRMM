@@ -21,13 +21,12 @@
         var resultList = {{value_list | safe}};
         var driverList = {{name_list | safe}};
         
-        // Define graph data
-        // const data = [{ x: resultList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"blue"} }];
-        const data = [{ x: resultList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"blue"} }];
+        // Define graph data - set color as royal blue (#4169E1)
+        const data = [{ x: resultList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"#4169E1"} }];
 
-        // Define graph layout. Excluded a y-axis title as fruit names are self-explanatory.
+        // Define graph layout. Excluded a y-axis title as driver names are self-explanatory.
         const layout = {  
-            xaxis: {range: [200, 300], title: "Overall Results (Seconds)"},
+            xaxis: {range: [240, 300], title: "Overall Results (Seconds)"},
             yaxis: {automargin: true, title: "Drivers"},
             // barmode: 'stack',
             title: "Top 5 Overall Results"
