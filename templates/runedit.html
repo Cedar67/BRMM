@@ -103,7 +103,16 @@
                     <td><input type="text" value="{{singlelist[10]}}" name="cone" class="form-control input-sm text-center"></td>
                 {% endif %}
                 
-                <td><input type="text" value="{{singlelist[11]}}" name="wd" class="form-control input-sm text-center"></td>
+                <td>
+                    <select name="wd" id="wd" class="form-control input-sm text-center" required>
+                        <option selected value="{{singlelist[11]}}">{{singlelist[11]}}</option>
+                        {% if singlelist[11] == 0 %}
+                            <option value=1>1</option>
+                        {% else %}
+                            <option value=0>0</option>
+                        {% endif %}
+                    </select>
+                </td>
 
                 {% if singlelist[12] == 0 %}
                     <td class="text-center" width="100">0.0</td>
