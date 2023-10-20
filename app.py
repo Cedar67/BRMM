@@ -26,38 +26,69 @@ def getCursor():
 
 
 
-def ageCalculate(birthday):
+def ageCalculate(sY, sM, sD):
 
-    while True:
-        # birthday format: 19/10/2023
-        try:
-            Y=int(birthday[:4])
-            M=int(birthday[4:6])
-            D=int(birthday[6:])
+    try:
+        iD=int(sD)
+        iM=int(sM)
+        iY=int(sY)
 
-            r_date=datetime.date(Y,M,D)
-            #  check the birthday if it is later than current date
-            if Y>datetime.datetime.now().year or (Y==datetime.datetime.now().year and M>=datetime.datetime.now().month and D>datetime.datetime.now().day):
-                return -1
+        #  check the birthday if it is later than current date
+        if iY>datetime.now().year or (iY==datetime.now().year and iM>=datetime.now().month and iD>datetime.now().day):
+            return 0
+        else:
+            today = str(datetime.now().strftime('%Y-%m-%d')).split("-")
+            monthday = int(today[1] + today[2])
+            year = int(today[0])
+            b_monthday = int(sM + sD)
+            b_year = iY
+
+            if (monthday) >= b_monthday:
+                age = year - b_year
             else:
+                age = year - b_year - 1
+    except:
+        return -1
+    
+    ageBirthday = {'age': age, 'birthday': sY +"-"+ sM +"-"+ sD}
 
-                today = str(datetime.datetime.now().strftime('%Y-%m-%d')).split("-")
-                n_monthandday=today[1] + today[2]
-                n_year=today[0]
-                r_monthandday=birthday[4:]
-                r_year=birthday[:4]
+    return ageBirthday
 
-                if (int(n_monthandday)>=int(r_monthandday)):
 
-                    age=int(n_year)-int(r_year)
-                else:
-                    age=int(n_year)-int(r_year)-1
 
-                break
-        except:
-            return -1
+def ageCalculate2(birthday):
 
-    return age
+    # birthday input format: 19/10/2023
+    try:
+        sD=birthday[:2]
+        sM=birthday[3:5]
+        sY=birthday[6:]
+
+        iD=int(birthday[:2])
+        iM=int(birthday[3:5])
+        iY=int(birthday[6:])
+
+        # r_date=datetime.date(Y,M,D)
+        #  check the birthday if it is later than current date
+        if iY>datetime.now().year or (iY==datetime.now().year and iM>=datetime.now().month and iD>datetime.now().day):
+            return 0
+        else:
+            today = str(datetime.now().strftime('%Y-%m-%d')).split("-")
+            monthday = int(today[1] + today[2])
+            year = int(today[0])
+            b_monthday = int(sM + sD)
+            b_year = iY
+
+            if (monthday) >= b_monthday:
+                age = year - b_year
+            else:
+                age = year - b_year - 1
+    except:
+        return -1
+    
+    ageBirthday = {'age': age, 'birthday': sY +"-"+ sM +"-"+ sD}
+
+    return ageBirthday
 
 
 
@@ -543,6 +574,30 @@ def runeditupdate():
 
 @app.route("/driveradd", methods=["GET"])
 def driveradd():
+    # Get car list and order by car_num
+    connection = getCursor()
+    sql=""" SELECT * FROM car order by car.car_num;"""
+    connection.execute(sql)
+    carList = connection.fetchall()
+
+    return render_template("driveradd.html", car_list= carList)
+
+
+
+@app.route("/driveraddnext", methods=["POST"])
+def driveraddnext():
+
+    # Get firstname/surname/carId from driveradd.html
+    firstname = request.form.get('firstname')
+    surname = request.form.get('surname')
+    car = request.form.get('car')
+    carId=car.split(" - ")[0]
+    carModelClass=car.split(" - ")[1]
+    driverType = request.form.get('driverType')
+    currentYear = datetime.now().year
+    oldYear = currentYear - 120
+    newYear = currentYear - 12
+
     # Get caregiver list and order by surname
     connection = getCursor()
     sql=""" SELECT driver.driver_id, driver.first_name, driver.surname
@@ -552,22 +607,19 @@ def driveradd():
     connection.execute(sql)
     caregiverList = connection.fetchall()
 
-    # Get car list and order by car_num
-    connection = getCursor()
-    sql=""" SELECT * FROM car order by car.car_num;"""
-    connection.execute(sql)
-    carList = connection.fetchall()
-
-    for list in carList:
-        print(list)
-    for list in caregiverList:
-        print(list)
-
-    return render_template("driveradd.html", caregiver_list = caregiverList, car_list= carList)
+    match driverType:
+        case "option25":
+            # return redirect(url_for('driveraddnonjunior',firstname=firstname,surname=surname,carId=carId))
+            return render_template('driveraddnonjunior.html',firstname=firstname,surname=surname,car=[carId,carModelClass])
+        case "option16_25":
+            return render_template("driveraddbirthday.html", firstname=firstname,surname=surname,car=[carId,carModelClass],oldYear=oldYear,newYear=newYear)
+        case "option12_16":
+            return render_template("driveraddunder16.html", firstname=firstname,surname=surname,car=[carId,carModelClass],oldYear=oldYear,newYear=newYear, caregiver_list = caregiverList)
 
 
 
-@app.route("/driveraddnonjunior", methods=["POST"])
+
+@app.route("/driveraddnonjunior", methods=['POST','GET'])
 def driveraddnonjunior():
 
     # Get course id list
@@ -576,12 +628,10 @@ def driveraddnonjunior():
     connection.execute(sql)
     courseList = connection.fetchall()
 
-
     # Get firstname/surname/carId from driveradd.html
     firstname = request.form.get('firstname')
     surname = request.form.get('surname')
-    carId = request.form.get('car')
-
+    carId = int(request.form.get('car'))
 
     # Insert driver data into driver table
     connection = getCursor()
@@ -592,7 +642,6 @@ def driveraddnonjunior():
     connection.execute(sql1,parameters)
     connection.execute(sql2)
     driverId = connection.fetchall()
-
 
     # Insert init run data into run table
     connection = getCursor()
@@ -620,16 +669,66 @@ def driveraddjunior():
     # Get firstname/surname/carId from driveradd.html
     firstname = request.form.get('firstname')
     surname = request.form.get('surname')
-    carId = request.form.get('car')
-    caregiver = request.form.get('caregiver')
-    birthday = request.form.get('birthday')
+    carId = int(request.form.get('car'))
+    # caregiver = request.form.get('caregiver')
+    year = request.form.get('year')
+    month = request.form.get('month')
+    day = request.form.get('day')
+    ageBirthday = ageCalculate(year,month,day)
+    birthday = ageBirthday['birthday']
+    age = ageBirthday['age']
+
+    # Insert driver data into driver table
+    connection = getCursor()
+    sql1 = """   INSERT INTO driver (first_name, surname, date_of_birth, age, car)
+                VALUES (%s, %s, %s, %s, %s);"""
+    sql2 = """   SELECT max(driver_id) FROM driver;"""
+    parameters = (firstname, surname, birthday, age, carId,)
+    connection.execute(sql1,parameters)
+    connection.execute(sql2)
+    driverId = connection.fetchall()
+
+    # Insert init run data into run table
+    connection = getCursor()
+    sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
+                VALUES (%s, %s, %s, %s, %s, %s);"""
+    for courseId in courseList:
+        for i in range(1,3):
+            parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
+            connection.execute(sql,parameters)
+            print(parameters)
+
+    # return render_template("driversearch.html", driver_list = firstname)
+    return redirect("/searchdriver")
+
+
+
+@app.route("/driveraddunder16", methods=["POST"])
+def driveraddunder16():
+    # Get course id list
+    connection = getCursor()
+    sql=""" SELECT course.course_id FROM course;"""
+    connection.execute(sql)
+    courseList = connection.fetchall()
+
+    # Get firstname/surname/carId from driveradd.html
+    firstname = request.form.get('firstname')
+    surname = request.form.get('surname')
+    carId = int(request.form.get('car'))
+    caregiver = int(request.form.get('caregiver'))
+    year = request.form.get('year')
+    month = request.form.get('month')
+    day = request.form.get('day')
+    ageBirthday = ageCalculate(year,month,day)
+    birthday = ageBirthday['birthday']
+    age = ageBirthday['age']
 
     # Insert driver data into driver table
     connection = getCursor()
     sql1 = """   INSERT INTO driver (first_name, surname, date_of_birth, age, caregiver, car)
                 VALUES (%s, %s, %s, %s, %s, %s);"""
     sql2 = """   SELECT max(driver_id) FROM driver;"""
-    parameters = (firstname,surname,carId,)
+    parameters = (firstname, surname, birthday, age, caregiver, carId,)
     connection.execute(sql1,parameters)
     connection.execute(sql2)
     driverId = connection.fetchall()

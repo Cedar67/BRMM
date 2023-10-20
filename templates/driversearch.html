@@ -1,10 +1,9 @@
 {% extends "admin.html" %}
 {% block content %}
-
-<h2>Search Driver</h2>
-
+<br>
+<h2 class="text-primary">Search Driver</h2>
+<br>
 <form id="driver_form" name="driver_form" action="/searchdriver/filter" method="post">
-
     <p>
         <label>Driver Name: </label>
         <input type="text" value="{{driver_name}}" name="driver">

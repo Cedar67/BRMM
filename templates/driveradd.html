@@ -1,20 +1,24 @@
 {% extends "admin.html" %}
 {% block content %}
+<br>
+<h2 class="text-primary">Add Driver</h2>
+<br>
+<h4 class="text-primary">Step 1 - Input Basic Information</h4>
 
-<h2>Add Driver</h2>
 
 <!-- code to display input table for add driver-->
 
 <br>
-<form id="driver_form" name="driver_form" action="/driveraddnonjunior" method="post">
+<form id="driver_form" name="driver_form" action="/driveraddnext" method="post">
     <p>
         <table>
             <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="text-center" width="90">Driver Name</th>
-                    <th class="text-center" width="90">Car</th>
-                    <th class="text-center" width="90"></th>
+                    <th class="text-center" width="200">Driver Name</th>
+                    <th class="text-center" width="200"></th>
+                    <th class="text-center" width="30"></th>
+                    <th class="text-center" width="200">Car</th>
                     <th class="text-center" width="90"></th>
                 </tr> 
             </thead>
@@ -22,15 +26,19 @@
 
                 <tr>
                     <td>
-                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center" required>
-                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center" required>
+                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="form-control input-sm text-center" required>
+                    </td>
+                    <td>
+                        <input type="text"  value="" name="surname" placeholder="Surname" class="form-control input-sm text-center" required>
+                    </td>
+                    <td>
+                        <input type="hidden" class="form-control input-sm text-center" required>
                     </td>
                     <td>
                         <select name="car" id="car" class="form-control input-sm text-center" required>
-                            <!-- <option selected>&lt; Select a car &gt;</option> -->
                             <option value="">&lt; Select a car &gt;</option>
                             {% for car in car_list %}
-                                <option value="{{car[0]}}">{{car[0]}} - {{car[1]}} {{car[2]}}</option>
+                                <option value="{{car[0]}} - {{car[1]}} {{car[2]}}">{{car[0]}} - {{car[1]}} {{car[2]}}</option>
                             {% endfor %}
                         </select>
                     </td>
@@ -38,72 +46,26 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <!-- <tr>
-                    <td>
-                        <input type="submit" value="Add" class="form-control input-sm text-center" width="90"/>
-                </td>
-                </tr> -->
             </tbody>
         </table>
     </p>
-        <input type="submit" value="Submit To Add One Non-Junior Driver"/>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio1" name="driverType" value="option25" checked>Non-Junior Driver (Age > 25 years)
+        <label class="form-check-label" for="radio1"></label>
+    </div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio2" name="driverType" value="option16_25">Junior Driver (16 years < Age <= 25 years)
+        <label class="form-check-label" for="radio2"></label>
+    </div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio3" name="driverType" value="option12_16">Junior Driver (12 years <= Age <= 16 years)
+        <label class="form-check-label" for="radio2"></label>
+    </div>
+    <br>
+    <br>
+    <input type="submit" value="Next Step To Add One Driver" class="input-lg text-center" width="90"/>
 </form>
 
-<br>
-<br>
-<br>
-
-<form id="juniordriver_form" name="juniordriver_form" action="/driveraddjunior" method="post">
-    <p>
-        <table>
-            <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="text-center" width="90">Driver Name</th>
-                    <th class="text-center" width="90">Car</th>
-                    <th class="text-center" width="90">Caregiver</th>
-                    <th class="text-center" width="90">Birthday</th>
-                </tr> 
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>
-                        <input type="text"  value="" name="firstname" placeholder="Firstname" class="input-sm text-center" required>
-                        <input type="text"  value="" name="surname" placeholder="Surname" class="input-sm text-center" required>
-                    </td>
-                    <td>
-                        <select name="car" id="car" class="form-control input-sm text-center" required>
-                            <option value="" selected>&lt; Select a car &gt;</option>
-                            {% for car in car_list %}
-                                <option value="{{car[0]}}">{{car[0]}} - {{car[1]}} {{car[2]}}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    
-                    <td>
-                        <select name="caregiver" id="caregiver" class="form-control input-sm text-center" required>
-                            <option value="" selected>&lt; Select a caregiver &gt;</option>
-                            {% for caregiver in caregiver_list %}
-                                <option value="{{caregiver[0]}}">{{caregiver[0]}} - {{caregiver[1]}} {{caregiver[2]}}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td><input type="text" value="" name="birthday" class="form-control input-sm text-center" placeholder="DD/MM/YYYY" required></td>
-                </tr>
-                <!-- <tr>
-                    <td>
-                        <input type="submit" value="Add" class="form-control input-sm text-center" width="90"/>
-                </td>
-                </tr> -->
-            </tbody>
-        </table>
-    </p>
-
-    <p>
-        <input type="submit" value="Submit To Add One Junior Driver"/>
-    </p>
-</form>
 
 
 {% endblock %}

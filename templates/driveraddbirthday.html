@@ -1,0 +1,111 @@
+{% extends "admin.html" %}
+{% block content %}
+<br>
+<h2 class="text-primary"><b>Add Driver</b></h2>
+<h4 class="text-primary">Junior Driver (16 years < Age <= 25 years)</h4>
+<br>
+<h4 class="text-primary">Step 2 - Input Birthday For Junior Driver</h4>
+
+
+<!-- code to display input table for add driver-->
+
+<br>
+<form id="driver_form" name="driver_form" action="/driveraddjunior" method="post">
+    <p>
+        <table>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center" width="200">Driver Name</th>
+                    <th class="text-center" width="200"></th>
+                    <th class="text-center" width="30"></th>
+                    <th class="text-center" width="200">Car</th>
+                    <th class="text-center" width="30"></th>
+                    <th class="text-center" width="120">Birthday</th>
+                    <th class="text-center" width="120"></th>
+                    <th class="text-center" width="120"></th>
+                    <th class="text-center" width="30"></th>
+                    <th class="text-center" width="200"></th>
+                </tr> 
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>
+                        <input type="text"  value="{{firstname}}" name="firstname" placeholder="Firstname" class="form-control input-sm text-center" required>
+                    </td>
+                    <td>
+                        <input type="text"  value="{{surname}}" name="surname" placeholder="Surname" class="form-control input-sm text-center" required>
+                    </td>
+                    <td><input type="hidden" class="form-control input-sm text-center"></td>
+                    <td>
+                        <select name="car" id="car" class="form-control input-sm text-center" required>
+                            <option value="{{car[0]}}">{{car[0]}} - {{car[1]}}</option>
+                        </select>
+                    </td>
+                    <td><input type="hidden" class="form-control input-sm text-center"></td>
+                    <td>
+                        <!-- <input type="text" value="" name="birthday" class="input-sm text-center" placeholder="DD" required> -->
+                        <select name="day" id="day" class="form-control input-sm text-center" required>
+                            <option value="">&lt; DD &gt;</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            {% for optionDay in range(10,31) %}
+                                <option value="{{optionDay}}">{{optionDay}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <!-- <input type="text" value="" name="birthday" class="input-sm text-center" placeholder="DD" required> -->
+                        <select name="month" id="month" class="form-control input-sm text-center" required>
+                            <option value="">&lt; MM &gt;</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </td>
+                    <td>
+                        <!-- <input type="text" value="" name="birthday" class="input-sm text-center" placeholder="DD" required> -->
+                        <select name="year" id="year" class="form-control input-sm text-center" required>
+                            <option value="">&lt; YYYY &gt;</option>
+                            {% for optionYear in range(newYear,oldYear,-1) %}
+                                <option value="{{optionYear}}">{{optionYear}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </p>
+
+    <br>
+    <br>
+    <input type="submit" value="Submit To Add One Driver" class="input-lg text-center" width="90"/>
+</form>
+
+<br>
+
+<form id="driver_form" name="driver_form" action="/driveradd" method="get">
+    <input type="submit" value="Back To Last Step" class="input-lg text-center" width="90"/>
+</form>
+
+
+{% endblock %}

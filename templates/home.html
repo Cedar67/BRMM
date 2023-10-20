@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h1 style="text-align: center; color:darkblue"><em>Nau mai! Welcome!</em></h1>
-<h3 style="text-align: center; color:darkblue">Welcome to Motorkhana</h3>
-
+<br>
+<h1 class="text-primary"><em>Nau mai! Welcome!</em></h1>
+<h3 class="text-primary">Welcome to Motorkhana</h3>
+<br><br>
 <table class="table">
     <tr>
-      <td><a href="{{ url_for('admin') }}">Administrator Entrance</a></td>
+      <td><a href="{{ url_for('admin') }}"><h5><b>Administrator Entrance</b></h5></a></td>
     </tr>
   </table>
-<p><br><br></p>
 
 {% endblock %}

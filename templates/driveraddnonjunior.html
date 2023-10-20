@@ -1,0 +1,60 @@
+{% extends "admin.html" %}
+{% block content %}
+<br>
+<h2 class="text-primary"><b>Add Driver</b></h2>
+<h4 class="text-primary">Non-Junior Driver (Age > 25 years)</h4>
+<br>
+<h4 class="text-primary">Step 2 - Confirm to Submit one Non-Junior Driver</h4>
+
+
+<!-- code to display input table for add driver-->
+
+<br>
+<form id="driver_form" name="driver_form" action="/driveraddnonjunior" method="post">
+    <p>
+        <table>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center" width="200">Driver Name</th>
+                    <th class="text-center" width="200"></th>
+                    <th class="text-center" width="30"></th>
+                    <th class="text-center" width="200">Car</th>
+                </tr> 
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>
+                        <input type="text"  value="{{firstname}}" name="firstname" placeholder="Firstname" class="form-control input-sm text-center" required>
+                    </td>
+                    <td>
+                        <input type="text"  value="{{surname}}" name="surname" placeholder="Surname" class="form-control input-sm text-center" required>
+                    </td>
+                    <td><input type="hidden" class="form-control input-sm text-center"></td>
+                    <td>
+                        <select name="car" id="car" class="form-control input-sm text-center" required>
+                            <option value="{{car[0]}}">{{car[0]}} - {{car[1]}}</option>
+                        </select>
+                    </td>
+                    <td><input type="hidden" class="form-control input-sm text-center"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </p>
+
+    <br>
+    <br>
+    <input type="submit" value="Submit To Add One Driver" class="input-lg text-center" width="90"/>
+</form>
+
+<br>
+
+<form id="driver_form" name="driver_form" action="/driveradd" method="get">
+    <input type="submit" value="Back To Last Step" class="input-lg text-center" width="90"/>
+</form>
+
+
+{% endblock %}
