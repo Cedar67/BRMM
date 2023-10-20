@@ -241,6 +241,12 @@ def admin():
 
 
 
+@app.route("/adminhome")
+def adminhome():
+    return render_template("adminhome.html")
+
+
+
 @app.route("/base")
 def base():
     return render_template("base.html")
