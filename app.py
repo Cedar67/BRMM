@@ -615,7 +615,6 @@ def driveraddnext():
 
     match driverType:
         case "option25":
-            # return redirect(url_for('driveraddnonjunior',firstname=firstname,surname=surname,carId=carId))
             return render_template('driveraddnonjunior.html',firstname=firstname,surname=surname,car=[carId,carModelClass])
         case "option16_25":
             return render_template("driveraddbirthday.html", firstname=firstname,surname=surname,car=[carId,carModelClass],oldYear=oldYear,newYear=newYear)
@@ -659,8 +658,7 @@ def driveraddnonjunior():
             connection.execute(sql,parameters)
             print(parameters)
 
-    # return render_template("driversearch.html", driver_list = firstname)
-    return redirect("/searchdriver")
+    return redirect(url_for('searchdriverfilter',driver_id = driverId[0][0], driver_name = firstname +" "+ surname))
 
 
 
@@ -704,8 +702,7 @@ def driveraddjunior():
             connection.execute(sql,parameters)
             print(parameters)
 
-    # return render_template("driversearch.html", driver_list = firstname)
-    return redirect("/searchdriver")
+    return redirect(url_for('searchdriverfilter',driver_id = driverId[0][0], driver_name = firstname +" "+ surname))
 
 
 
@@ -749,8 +746,7 @@ def driveraddunder16():
             connection.execute(sql,parameters)
             print(parameters)
 
-    # return render_template("driversearch.html", driver_list = firstname)
-    return redirect("/searchdriver")
+    return redirect(url_for('searchdriverfilter',driver_id = driverId[0][0], driver_name = firstname +" "+ surname))
 
 
 
@@ -772,18 +768,34 @@ def searchdriver():
 
 
 
-@app.route("/searchdriver/filter", methods=["POST"])
+@app.route("/searchdriver/filter", methods=["POST","GET"])
 def searchdriverfilter():
-    driverName = request.form.get('driver')
+    driverNameAdd = request.args.get('driver_name')
+    driverId = request.args.get('driver_id')
+    driverNameSearch = request.form.get('driver')
+
     connection = getCursor()
-    sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
-                car.model, car.drive_class, d2.first_name, d2.surname 
-                FROM driver d1  
-                INNER JOIN car ON d1.car = car.car_num
-                LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id    
-                WHERE concat(d1.first_name,' ' ,d1.surname) like %s
-                ORDER BY d1.surname, d1.first_name;"""
-    parameters = (f'%{driverName}%',)
+    if driverId != None:
+        driverName = driverNameAdd
+        sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
+                    car.model, car.drive_class, d2.first_name, d2.surname 
+                    FROM driver d1  
+                    INNER JOIN car ON d1.car = car.car_num
+                    LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id    
+                    WHERE d1.driver_id = %s
+                    ORDER BY d1.surname, d1.first_name;"""
+        parameters = (driverId,)
+    else:
+        driverName = driverNameSearch
+        sql = """   SELECT d1.driver_id, d1.first_name, d1.surname, d1.age, 
+                    car.model, car.drive_class, d2.first_name, d2.surname 
+                    FROM driver d1  
+                    INNER JOIN car ON d1.car = car.car_num
+                    LEFT JOIN driver d2 ON d1.caregiver = d2.driver_id    
+                    WHERE concat(d1.first_name,' ' ,d1.surname) like %s
+                    ORDER BY d1.surname, d1.first_name;"""
+        parameters = (f'%{driverName}%',)
+
     connection.execute(sql,parameters)
     driverList = connection.fetchall()
     for list in driverList:
