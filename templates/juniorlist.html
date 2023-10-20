@@ -8,12 +8,12 @@
     <table class="table table-striped">
     <thead>
         <tr>
-            <th>Driver ID</th>
-            <th>Driver Name</th>
-            <th>Car Model</th>
-            <th>Drive Class</th>
-            <th>Caregiver</th>
-            <th>Age</th>
+             <th class="text-center">Driver ID</th>
+             <th class="text-center">Driver Name</th>
+             <th class="text-center">Car Model</th>
+             <th class="text-center">Drive Class</th>
+             <th class="text-center">Caregiver</th>
+             <th class="text-center">Age</th>
         </tr>
     </thead>
     <tbody>
@@ -24,16 +24,16 @@
                 {% set sFlag = "(J)" %}
                 
                 <tr>
-                    <th>{{singlelist[0]}}</th>
-                    <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
-                    <th>{{singlelist[4]}}</th>
-                    <th>{{singlelist[5]}}</th>
+                     <th class="text-center">{{singlelist[0]}}</th>
+                     <th class="text-center">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                     <th class="text-center">{{singlelist[4]}}</th>
+                     <th class="text-center">{{singlelist[5]}}</th>
                     {% if singlelist[6] == None %}
-                        <th></th>
+                         <th class="text-center"></th>
                     {% else %}
-                        <th>{{singlelist[6]}} {{singlelist[7]}}</th>
+                         <th class="text-center">{{singlelist[6]}} {{singlelist[7]}}</th>
                     {% endif %}
-                    <th>{{singlelist[3]}}</th>  
+                     <th class="text-center">{{singlelist[3]}}</th>  
                 </tr>
             {% endif %}
         {% endif %}

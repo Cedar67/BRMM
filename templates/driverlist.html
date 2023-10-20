@@ -9,10 +9,10 @@
     <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Driver ID</th>
-            <th>Driver Name</th>
-            <th>Car Model</th>
-            <th>Drive Class</th>
+            <th class="text-center">Driver ID</th>
+            <th class="text-center">Driver Name</th>
+            <th class="text-center">Car Model</th>
+            <th class="text-center">Drive Class</th>
         </tr>
     </thead>
     <tbody>
@@ -24,10 +24,10 @@
             {% set sFlag = "(J)" %}
             <tr class="table-warning">
         {% endif %}
-                <th>{{singlelist[0]}}</th>
-                <th><a href="rundetail?driverid={{singlelist[0]}}">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</a></th>
-                <th>{{singlelist[8]}}</th>
-                <th>{{singlelist[9]}}</th>
+                <th class="text-center">{{singlelist[0]}}</th>
+                <th class="text-center"><a href="rundetail?driverid={{singlelist[0]}}">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</a></th>
+                <th class="text-center">{{singlelist[8]}}</th>
+                <th class="text-center">{{singlelist[9]}}</th>
         </tr>
     {% endfor %}
     </tbody>

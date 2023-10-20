@@ -12,18 +12,19 @@
         body{margin: 30px;}
       </style>
       <nav>
-            <h1>Bankside Rakaia Motorkhana Mavens - Competition event</h1>
+            <h1 class="text-primary">Bankside Rakaia Motorkhana Mavens - Competition event</h1>
+            <br>
             <table class="table">
               <tr>
-                <td><a href="{{ url_for('home') }}">Home</a></td>
-                <td><a href="{{ url_for('listdrivers') }}">List Drivers</a></td>
-                <td><a href="{{ url_for('listcourses') }}">List Courses</a></td>
-                <td><a href="{{ url_for('rundetail') }}">Run Details</a></td>
-                <td><a href="{{ url_for('overall') }}">Overall Results</a></td>
-                <td><a href="{{ url_for('showgraph') }}">Bar Graph</a></td>
+                <td><a href="{{ url_for('home') }}"><b>Home</b></a></td>
+                <td><a href="{{ url_for('listdrivers') }}"><b>List Drivers</b></a></td>
+                <td><a href="{{ url_for('listcourses') }}"><b>List Courses</b></a></td>
+                <td><a href="{{ url_for('rundetail') }}"><b>Run Details</b></a></td>
+                <td><a href="{{ url_for('overall') }}"><b>Overall Results</b></a></td>
+                <td><a href="{{ url_for('showgraph') }}"><b>Bar Graph</b></a></td>
               </tr>
             </table>
-        </nav>
+      </nav>
           <section class="content">
             <header>
               {% block header %}{% endblock %}

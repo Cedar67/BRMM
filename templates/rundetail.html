@@ -34,16 +34,16 @@
     <table class="table table-striped">
     <thead>
         <tr>
-            <th>Driver ID</th>
-            <th>Driver Name</th>
-            <th>Car Model</th>
-            <th>Drive Class</th>
-            <th>Course Name</th>
-            <th>Run Num</th>
-            <th>Time</th>
-            <th>Cones</th>
-            <th>WD</th>
-            <th>Run Total</th>
+            <th class="text-center">Driver ID</th>
+            <th class="text-center">Driver Name</th>
+            <th class="text-center">Car Model</th>
+            <th class="text-center">Drive Class</th>
+            <th class="text-center">Course Name</th>
+            <th class="text-center">Run Num</th>
+            <th class="text-center">Time</th>
+            <th class="text-center">Cones</th>
+            <th class="text-center">WD</th>
+            <th class="text-center">Run Total</th>
         </tr>
     </thead>
     <tbody>
@@ -54,31 +54,31 @@
             {% set sFlag = "(J)" %}
         {% endif %}
         <tr>
-                <th>{{singlelist[0]}}</th>
-                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
-                <th>{{singlelist[4]}}</th>
-                <th>{{singlelist[5]}}</th>
-                <th>{{singlelist[7]}}</th>
-                <th>{{singlelist[8]}}</th>
+                <th class="text-center">{{singlelist[0]}}</th>
+                <th class="text-center">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                <th class="text-center">{{singlelist[4]}}</th>
+                <th class="text-center">{{singlelist[5]}}</th>
+                <th class="text-center">{{singlelist[7]}}</th>
+                <th class="text-center">{{singlelist[8]}}</th>
 
                 {% if singlelist[9] == None %}
-                    <th>0.0</th>
+                    <th class="text-center">0.0</th>
                 {% else %}
-                    <th>{{singlelist[9]}}</th>
+                    <th class="text-center">{{singlelist[9]}}</th>
                 {% endif %}
 
                 {% if singlelist[10] == None %}
-                    <th>0</th>
+                    <th class="text-center">0</th>
                 {% else %}
-                    <th>{{singlelist[10]}}</th>
+                    <th class="text-center">{{singlelist[10]}}</th>
                 {% endif %}
 
-                <th>{{singlelist[11]}}</th>
+                <th class="text-center">{{singlelist[11]}}</th>
 
                 {% if singlelist[12] == 0 %}
-                    <th>0.0</th>
+                    <th class="text-center">0.0</th>
                 {% else %}
-                    <th>{{singlelist[12]}}</th>
+                    <th class="text-center">{{singlelist[12]}}</th>
                 {% endif %}
         </tr>
     {% endfor %}

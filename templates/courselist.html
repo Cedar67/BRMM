@@ -8,18 +8,17 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Course</th>
-            <th>Name</th>
-            <th>Map diagram</th>
+            <th class="text-center" width="50">Course</th>
+            <th class="text-center" width="50">Name</th>
+            <th class="text-center" width="400">Map Diagram</th>
         </tr>
     </thead>
     <tbody>
     {% for course in course_list %}
         <tr>
-
-                <th>{{course[0]}}</th>
-                <th>{{course[1]}}</th>
-                <th><img src="{{ url_for('static', filename=course[2])}}"  class="img-thumbnail" ></th>
+                <td class="text-center">{{course[0]}}</th>
+                <td class="text-center">{{course[1]}}</th>
+                <td class="text-center"><img src="{{ url_for('static', filename=course[2])}}"  class="img-thumbnail form-control input-sm text-center"></th>
         </tr>
     {% endfor %}
     </tbody>

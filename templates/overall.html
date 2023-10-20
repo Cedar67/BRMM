@@ -9,18 +9,18 @@
     <table class="table table-striped">
     <thead>
         <tr>
-            <th>Driver ID</th>
-            <th>Driver Name</th>
-            <th>Car Model</th>
-            <th>Drive Class</th>
-            <th>Course A</th>
-            <th>Course B</th>
-            <th>Course C</th>
-            <th>Course D</th>
-            <th>Course E</th>
-            <th>Course F</th>
-            <th>Overall Result</th>
-            <th>Award</th>
+             <th class="text-center">Driver ID</th>
+             <th class="text-center">Driver Name</th>
+             <th class="text-center">Car Model</th>
+             <th class="text-center">Drive Class</th>
+             <th class="text-center">Course A</th>
+             <th class="text-center">Course B</th>
+             <th class="text-center">Course C</th>
+             <th class="text-center">Course D</th>
+             <th class="text-center">Course E</th>
+             <th class="text-center">Course F</th>
+             <th class="text-center">Overall Result</th>
+             <th class="text-center">Award</th>
         </tr>
     </thead>
     <tbody>
@@ -31,18 +31,24 @@
             {% set sFlag = "(J)" %}
         {% endif %}
         <tr>
-                <th>{{singlelist[0]}}</th>
-                <th>{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
-                <th>{{singlelist[4]}}</th>
-                <th>{{singlelist[5]}}</th>
-                <th>{{singlelist[6]}}</th>
-                <th>{{singlelist[7]}}</th>
-                <th>{{singlelist[8]}}</th>
-                <th>{{singlelist[9]}}</th>
-                <th>{{singlelist[10]}}</th>
-                <th>{{singlelist[11]}}</th>
-                <th>{{singlelist[12]}}</th>
-                <th>{{singlelist[13]}}</th>
+                 <th class="text-center">{{singlelist[0]}}</th>
+                 <th class="text-center">{{singlelist[1]}} {{singlelist[2]}} {{sFlag}}</th>
+                 <th class="text-center">{{singlelist[4]}}</th>
+                 <th class="text-center">{{singlelist[5]}}</th>
+                 <th class="text-center">{{singlelist[6]}}</th>
+                 <th class="text-center">{{singlelist[7]}}</th>
+                 <th class="text-center">{{singlelist[8]}}</th>
+                 <th class="text-center">{{singlelist[9]}}</th>
+                 <th class="text-center">{{singlelist[10]}}</th>
+                 <th class="text-center">{{singlelist[11]}}</th>
+                 <th class="text-center">{{singlelist[12]}}</th>
+                 {% if singlelist[13] == "cup" %}
+                    <th class="text-center text-success"><b>{{singlelist[13]}}</b></th>
+                 {% elif singlelist[13] == "prize" %}
+                    <th class="text-center text-primary"><b>{{singlelist[13]}}</b></th>
+                 {% else %}
+                    <th class="text-center text-primary"></th>
+                 {% endif %}
         </tr>
     {% endfor %}
     </tbody>
