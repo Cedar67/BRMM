@@ -320,7 +320,7 @@ def showgraph():
 
     bestDriverList = []
     juniorFlag = ""
-    for i in range(0, 5):
+    for i in range(4, -1, -1):
         if overallResults[i][3] == None:
             juniorFlag = ""
         elif overallResults[i][3] <=25:
@@ -328,7 +328,7 @@ def showgraph():
         bestDriverList.append("  "+str(overallResults[i][0])+" " + overallResults[i][1] + " " + overallResults[i][2] + juniorFlag + " " )
 
     bestResultsList = []
-    for i in range(0, 5):
+    for i in range(4, -1, -1):
         bestResultsList.append(overallResults[i][12])
 
     #Debug info
@@ -601,8 +601,6 @@ def driveraddnext():
     carModelClass=car.split(" - ")[1]
     driverType = request.form.get('driverType')
     currentYear = datetime.now().year
-    oldYear = currentYear - 120
-    newYear = currentYear - 12
 
     # Get caregiver list and order by surname
     connection = getCursor()
@@ -617,8 +615,12 @@ def driveraddnext():
         case "option25":
             return render_template('driveraddnonjunior.html',firstname=firstname,surname=surname,car=[carId,carModelClass])
         case "option16_25":
+            oldYear = currentYear - 25
+            newYear = currentYear - 16
             return render_template("driveraddbirthday.html", firstname=firstname,surname=surname,car=[carId,carModelClass],oldYear=oldYear,newYear=newYear)
         case "option12_16":
+            oldYear = currentYear - 16
+            newYear = currentYear - 12
             return render_template("driveraddunder16.html", firstname=firstname,surname=surname,car=[carId,carModelClass],oldYear=oldYear,newYear=newYear, caregiver_list = caregiverList)
 
 
