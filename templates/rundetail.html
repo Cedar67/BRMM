@@ -3,31 +3,39 @@
 <br>
 <h2 class="text-primary">Run Details</h2>
 <br>
-<form id="driver_form" name="driver_form" action="/rundetail" method="post">
-
-    <p>
-        <label>Driver</label>
-        <select name="driver" id="driver">
-            {% if defaul_driver == None %}
-                <option selected>&lt;Select a driver&gt;</option>
-            {% else %}
-                <option value="{{run_detail[0][0]}}" selected> {{run_detail[0][1]}}  {{run_detail[0][2]}}</option>
-            {% endif %}
-
-            <option>&lt;Select all drivers&gt;</option>
-            {% for driver in driver_List %}
-                <!-- if statement adds:  selected="selected"  to the driver that matches driverid, 
-                    so that that driver is selected and shown in the dropdown -->
-                <option value="{{driver[0]}}" {% if driver[0] == driverid %}selected="selected"{% endif%}>{{driver[1]}} {{driver[2]}}</option>
-            {% endfor %}
-        </select>
-
-        <input type="submit" value="Filter" />
-        <!-- <input type="reset" value="Cancel" /> -->
-
-    </p>
-</form>
-
+<table>
+    <thead>
+        <tr>
+            <th class="text-center">
+                <form id="driver_form" name="driver_form" action="/rundetail" method="post">
+                    <label>Driver</label>
+                    <select name="driver" id="driver">
+                        {% if defaul_driver == None %}
+                            <option selected>&lt;Select a driver&gt;</option>
+                        {% else %}
+                            <option value="{{run_detail[0][0]}}" selected> {{run_detail[0][1]}}  {{run_detail[0][2]}}</option>
+                        {% endif %}
+            
+                        <option>&lt;Select all drivers&gt;</option>
+                        {% for driver in driver_List %}
+                            <!-- if statement adds:  selected="selected"  to the driver that matches driverid, 
+                                so that that driver is selected and shown in the dropdown -->
+                            <option value="{{driver[0]}}" {% if driver[0] == driverid %}selected="selected"{% endif%}>{{driver[1]}} {{driver[2]}}</option>
+                        {% endfor %}
+                    </select>
+            
+                    <input type="submit" value="Filter" />
+                </form>
+            </th>
+             <th class="text-center">
+                <form id="driver_form" name="driver_form" action="/rundetail" method="post">
+                    <input type="hidden" value="" name="driver"/>
+                    <input type="submit" value="Reset" />
+                </form>
+             </th>
+        </tr>
+    </thead>
+</table>
 <br>
 <!-- code to display list of courses-->
 <table>

@@ -3,11 +3,11 @@
 <br>
 <h2 class="text-primary">Edit Runs</h2>
 <br>
-<table class="table">
+<table>
     <tr>
-        <td>
+        <td width="10">  </td>
+        <th>
             <form id="driver_form" name="driver_form" action="/runedit" method="post">
-                <p>
                     <label>Driver</label>
                     <select name="driver" id="driver">
                         {% if defaul_driver == None %}
@@ -21,18 +21,20 @@
                             <option value="{{driver[0]}}">{{driver[1]}} {{driver[2]}}</option>
                         {% endfor %}
                     </select>
-
                     <input type="submit" value="Filter" />
-                    <!-- <input type="reset" value="Cancel" /> -->
-                </p>
             </form>
-        </td>
+        </th>
+        <th>
+            <form id="driver_form" name="driver_form" action="/runedit" method="post">
+                <input type="hidden" value="" name="driver"/>
+                <input type="submit" value="Reset" />
+            </form>
+         </th>
 
-
+        <td width="200">  </td>
         <td>
             <form id="course_form" name="course_form" action="/runedit" method="post">
-                <p>
-                    <label>Course</label>
+                    <label><b>Course</b></label>
                     <select name="course" id="course">
                         {% if defaul_course == None %}
                             <option selected>&lt; Select a course &gt;</option>
@@ -47,14 +49,18 @@
                     </select>
 
                     <input type="submit" value="Filter" />
-                    <!-- <input type="reset" value="Cancel" /> -->
-                </p>
+
             </form>
         </td>
-
+        <th>
+            <form id="course_form" name="course_form" action="/runedit" method="post">
+                <input type="hidden" value="Select a course" name="course"/>
+                <input type="submit" value="Reset" />
+            </form>
+         </th>
     </tr>
 </table>
-
+<br>
 <!-- code to display list of courses-->
 <table>
     <table class="table table-striped">
