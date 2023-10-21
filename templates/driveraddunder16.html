@@ -1,10 +1,10 @@
 {% extends "admin.html" %}
 {% block content %}
 <br>
-<h2><b>Add Driver</b></h2>
-<h4>Junior Driver (12 years < Age <= 16 years)</h2>
+<h2 class="text-primary"><b>Add Driver</b></h2>
+<h5 class="text-success">Junior Driver (12 years < Age <= 16 years)</h5>
 <br>
-<h4>Step 2 - Input Birthday and Caregiver For Junior Driver</h4>
+<h5 class="text-primary">Step 2 - Input Birthday and Caregiver For Junior Driver</h5>
 
 <!-- code to display input table for add driver-->
 
@@ -104,13 +104,13 @@
 
     <br>
     <br>
-    <input type="submit" value="Submit To Add One Driver" class="input-lg text-center" width="90"/>
+    <input type="submit" value="Submit To Add One Driver" class="input-lg text-center btn btn-primary btn-sm" width="90"/>
 </form>
 
 <br>
 
 <form id="driver_form" name="driver_form" action="/driveradd" method="get">
-    <input type="submit" value="Back To Last Step" class="input-lg text-center" width="90"/>
+    <input type="submit" value="Back To Last Step" class="input-lg text-center btn btn-primary btn-sm" width="90"/>
 </form>
 
 
