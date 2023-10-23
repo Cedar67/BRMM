@@ -130,7 +130,7 @@ def runsCalculate(runDetail):
         else:
             print("\nerror: Invalid Cones data\n")
             return -1
-        # Calculate total time
+        # Calculate total time (If time is equal to 0, the result is invalid. run Total should also be 0)
         if time > 0:
             run_total = time + cones_time*5 + wd_time
         else:
