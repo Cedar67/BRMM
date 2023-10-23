@@ -131,7 +131,10 @@ def runsCalculate(runDetail):
             print("\nerror: Invalid Cones data\n")
             return -1
         # Calculate total time
-        run_total = time + cones_time*5 + wd_time
+        if time > 0:
+            run_total = time + cones_time*5 + wd_time
+        else:
+            run_total = 0.0
 
         # Put into a list with the course type, driver id, basic time, cones hit, WD status and the Run Totals.
         run = (
