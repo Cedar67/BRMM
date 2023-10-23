@@ -72,7 +72,7 @@
             <th class="text-center" width="110">Drive Class</th>
             <th class="text-center" width="200">Course Name</th>
             <th class="text-center" width="90">Run Num</th>
-            <th class="text-center" width="100">Time</th>
+            <th class="text-center" width="110">Time</th>
             <th class="text-center" width="80">Cones</th>
             <th class="text-center" width="80">WD</th>
             <th class="text-center" width="100">Run Total</th>
@@ -98,7 +98,7 @@
                 {% if singlelist[9] == None %}
                     <td><input type="text" value="0.0" name="time" class="form-control input-sm text-center"></td>
                 {% else %}
-                    <td><input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" value="{{singlelist[9]}}" name="time" class="form-control input-sm text-center"></td>
+                    <td><input type="number" step="0.01" min="0" value="{{singlelist[9]}}" name="time" class="form-control input-sm text-center"></td>
                 {% endif %}
 
                 <td>
