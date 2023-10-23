@@ -24,8 +24,9 @@
         const data = [{ x: resultList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"royalblue"} }];
 
         // Define graph layout. Excluded a y-axis title as driver names are self-explanatory.
-        const layout = {
-            xaxis: {range: [240, 300], title: "Overall Results (Seconds)"},
+        const layout = { 
+            // The length of the x-axis is automatically adjusted according to the maximum and minimum values inputed.
+            xaxis: {range: [resultList[4]-20, resultList[0]+40], title: "Overall Results (Seconds)"},
             yaxis: {automargin: true, title: "Drivers"},
             // barmode: 'stack',
             title: "Top 5 Overall Results"
