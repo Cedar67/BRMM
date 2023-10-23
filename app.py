@@ -4,7 +4,6 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
-import re
 from datetime import datetime
 import mysql.connector
 from mysql.connector import FieldType
