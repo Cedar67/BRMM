@@ -98,14 +98,21 @@
                 {% if singlelist[9] == None %}
                     <td><input type="text" value="0.0" name="time" class="form-control input-sm text-center"></td>
                 {% else %}
-                    <td><input type="text" value="{{singlelist[9]}}" name="time" class="form-control input-sm text-center"></td>
+                    <td><input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" value="{{singlelist[9]}}" name="time" class="form-control input-sm text-center"></td>
                 {% endif %}
 
-                {% if singlelist[10] == None %}
-                    <td><input type="text" value="0" name="cone" class="form-control input-sm text-center"></td>
-                {% else %}
-                    <td><input type="text" value="{{singlelist[10]}}" name="cone" class="form-control input-sm text-center"></td>
-                {% endif %}
+                <td>
+                    <select name="cone" id="cone" class="form-control input-sm text-center">
+                        {% if singlelist[10] == None %}
+                        <option value="0">0</option>
+                        {% else %}
+                        <option value="{{singlelist[10]}}">{{singlelist[10]}}</option>
+                        {% endif %}
+                        {% for i in range(0,21) %}
+                            <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
                 
                 <td>
                     <select name="wd" id="wd" class="form-control input-sm text-center" required>
