@@ -16,17 +16,15 @@
 
 
     <script>
-        // REPLACE constants above with passed in variables.
-        // Use the '|safe' Jinja filter to mark them as safe (prevents your data being html-escaped). eg,
-        // var myList = {{ list_from_py | safe }}
+        // Use the '|safe' Jinja filter to mark them as safe (prevents the data being html-escaped). eg,
         var resultList = {{value_list | safe}};
         var driverList = {{name_list | safe}};
         
-        // Define graph data - set color as royal blue (#4169E1)
-        const data = [{ x: resultList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"#4169E1"} }];
+        // Define graph data - set color as royal blue (#4169E1 - royalblue)
+        const data = [{ x: resultList,  y: driverList,  type:"bar", orientation:"h", marker: {color:"royalblue"} }];
 
         // Define graph layout. Excluded a y-axis title as driver names are self-explanatory.
-        const layout = {  
+        const layout = {
             xaxis: {range: [240, 300], title: "Overall Results (Seconds)"},
             yaxis: {automargin: true, title: "Drivers"},
             // barmode: 'stack',
