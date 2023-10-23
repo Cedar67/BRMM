@@ -3,6 +3,9 @@
 <br>
 <h2 class="text-primary">Edit Runs</h2>
 <br>
+{% if error %}
+<p class=error><strong>Error:</strong> {{ error }}
+{% endif %}
 <table>
     <tr>
         <td width="10">  </td>
@@ -55,7 +58,7 @@
         <th>
             <form id="course_form" name="course_form" action="/runedit" method="post">
                 <input type="hidden" value="Select a course" name="course"/>
-                <input type="submit" value="Reset" class="btn btn-primary btn-sm"/>
+                <input type="submit" value="Reset" class="btn btn-primary btn-sm" />
             </form>
          </th>
     </tr>
@@ -131,14 +134,15 @@
                     <td class="text-center" width="100">{{singlelist[12]}}</td>
                 {% endif %}
 
-                <td> <input type="submit" value="Edit" class="btn btn-primary btn-sm"/></td>
+                <!-- <td><button class="btn btn-success" type="submit" data-toggle="modal" data-target="#myModal">Edit</button></td> -->
+                <td> <input type="submit" value="Edit" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"/></td>
                 <td><input type="hidden" value="{{singlelist[0]}}" name="driverid" class="form-control input-sm"></td>
                 <td><input type="hidden" value="{{singlelist[6]}}" name="courseid" class="form-control input-sm"></td>
                 <td><input type="hidden" value="{{singlelist[8]}}" name="runnum" class="form-control input-sm"></td>
-                <!-- <td><button class="btn btn-success" type="submit">Edit</button></td> -->
             </form>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}

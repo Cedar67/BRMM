@@ -1,5 +1,5 @@
 from decimal import Decimal
-from flask import Flask
+from flask import Flask, flash
 from flask import render_template
 from flask import request
 from flask import redirect
@@ -510,6 +510,8 @@ def runedit():
     driverId = request.form.get('driver')
     # Get course id that user selects from runedit.html
     courseId = request.form.get('course')
+    # Get course id that user selects from runedit.html
+    error = request.args.get('error')
 
     #If driverId can be converted to an integer, convert to integer, otherwise set to None.
     try:
@@ -556,7 +558,7 @@ def runedit():
     for list in courseList:
         print(list)
     
-    return render_template("runedit.html", run_detail = runDetailUpdate, driver_List = driverList, course_List = courseList, defaul_driver = defaulDriver, defaul_course = defaulCourse)  
+    return render_template("runedit.html", error = error, run_detail = runDetailUpdate, driver_List = driverList, course_List = courseList, defaul_driver = defaulDriver, defaul_course = defaulCourse)  
 
 
 
@@ -574,10 +576,15 @@ def runeditupdate():
                 SET seconds = %s, cones = %s, wd = %s
                 WHERE dr_id = %s AND crs_id = %s AND run_num = %s;"""
     parameters = (time,cone,wd,driverid,courseid,runnum,)
-    connection.execute(sql,parameters)
-    connection.fetchall()
+    try:
+        bb = connection.execute(sql,parameters)
+        aa = connection.fetchall()
+        flash('Successfully')
+    except:
+        error = 'Invalid Input'
 
-    return redirect("/runedit")
+    # return redirect("/runedit")
+    return redirect(url_for('runedit',error = error))
 
 
 
