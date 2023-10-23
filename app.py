@@ -11,6 +11,7 @@ from mysql.connector import FieldType
 import connect
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'
 
 dbconn = None
 connection = None
@@ -570,20 +571,21 @@ def runeditupdate():
     time = request.form.get('time')
     cone = request.form.get('cone')
     wd = request.form.get('wd')
-
+    error = ''
     connection = getCursor()
     sql = """   UPDATE run 
                 SET seconds = %s, cones = %s, wd = %s
                 WHERE dr_id = %s AND crs_id = %s AND run_num = %s;"""
     parameters = (time,cone,wd,driverid,courseid,runnum,)
     try:
-        bb = connection.execute(sql,parameters)
-        aa = connection.fetchall()
-        flash('Successfully')
-    except:
+        connection.execute(sql,parameters)
+        connection.fetchall()
+        flash('success')
+    except Exception as ex:
+        print(ex)
         error = 'Invalid Input'
+        flash('error')
 
-    # return redirect("/runedit")
     return redirect(url_for('runedit',error = error))
 
 
