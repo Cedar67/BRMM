@@ -538,7 +538,7 @@ def runedit():
         parameters = ()
 
     # Order by course id
-    sql3 = "ORDER BY run.crs_id, driver.surname, run.run_num;"""
+    sql3 = "ORDER BY run.crs_id, driver.surname, driver.first_name, run.run_num;"""
 
     # Combine all of the SQL parts into one SQL string. 
     # SQL2 will be "" if no value passed. 
