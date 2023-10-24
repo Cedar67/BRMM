@@ -579,11 +579,11 @@ def runeditupdate():
     try:
         connection.execute(sql,parameters)
         connection.fetchall()
-        flash([1, 'Edit Successfully! - Driver ID: '+driverid])
+        flash([1, 'Edit Successfully!    Driver ID: '+driverid])
     except Exception as ex:
         print(ex)
         error = 'Invalid Input'
-        flash([0, 'Edit Unsuccessfully. - Driver ID: '+driverid])
+        flash([0, 'Edit Unsuccessfully.    Driver ID: '+driverid])
 
     return redirect(url_for('runedit',info = error))
 
