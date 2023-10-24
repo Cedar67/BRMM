@@ -31,12 +31,10 @@
               {% if message[0] == 1 %}
                 <div class="flash alert alert-success" role="alert">
                   <label><strong>{{ message[1] }}</strong> </label>
-                  <br>
                 </div>
               {% elif message[0] == 0 %}
                 <div class="flash alert alert-warning" role="alert">
                   <label><strong>{{ message[1] }}</strong> </label>
-                  <br>
                 </div>
               {% endif %}
             {% endfor %}
