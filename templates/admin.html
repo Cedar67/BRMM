@@ -29,10 +29,12 @@
             </header>
             {% for message in get_flashed_messages() %}
               {% if message[0] == 1 %}
+                <br>
                 <div class="flash alert alert-success" role="alert">
                   <label><strong>{{ message[1] }}</strong> </label>
                 </div>
               {% elif message[0] == 0 %}
+                <br>
                 <div class="flash alert alert-warning" role="alert">
                   <label><strong>{{ message[1] }}</strong> </label>
                 </div>

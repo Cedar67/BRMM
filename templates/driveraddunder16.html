@@ -25,20 +25,20 @@
                     <th class="text-center" width="200">Car</th>
                     <th class="text-center" width="30"></th>
                     <th class="text-center" width="100">Birthday</th>
-                    <th class="text-center" width="100"></th>
-                    <th class="text-center" width="100"></th>
                     <th class="text-center" width="30"></th>
                     <th class="text-center" width="200">Caregiver</th>
+                    <th class="text-center" width="120"></th>
+                    <th class="text-center" width="120"></th>
                 </tr> 
             </thead>
             <tbody>
 
                 <tr>
                     <td>
-                        <input type="text"  value="{{firstname}}" name="firstname" placeholder="Firstname" class="form-control input-sm text-center" required>
+                        <input type="text"  value="{{driverName[0]}}" name="firstname" placeholder="Firstname" class="form-control input-sm text-center" required>
                     </td>
                     <td>
-                        <input type="text"  value="{{surname}}" name="surname" placeholder="Surname" class="form-control input-sm text-center" required>
+                        <input type="text"  value="{{driverName[1]}}" name="surname" placeholder="Surname" class="form-control input-sm text-center" required>
                     </td>
                     <td><input type="hidden" class="form-control input-sm text-center"></td>
                     <td>
@@ -48,49 +48,7 @@
                     </td>
                     <td><input type="hidden" class="form-control input-sm text-center"></td>
                     <td>
-                        <!-- <input type="text" value="" name="birthday" class="input-sm text-center" placeholder="DD" required> -->
-                        <select name="day" id="day" class="form-control input-sm text-center" required>
-                            <option value="">&lt; DD &gt;</option>
-                            <option value="01">01</option>
-                            <option value="02">02</option>
-                            <option value="03">03</option>
-                            <option value="04">04</option>
-                            <option value="05">05</option>
-                            <option value="06">06</option>
-                            <option value="07">07</option>
-                            <option value="08">08</option>
-                            <option value="09">09</option>
-                            {% for optionDay in range(10,31) %}
-                                <option value="{{optionDay}}">{{optionDay}}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <!-- <input type="text" value="" name="birthday" class="input-sm text-center" placeholder="DD" required> -->
-                        <select name="month" id="month" class="form-control input-sm text-center" required>
-                            <option value="">&lt; MM &gt;</option>
-                            <option value="01">01</option>
-                            <option value="02">02</option>
-                            <option value="03">03</option>
-                            <option value="04">04</option>
-                            <option value="05">05</option>
-                            <option value="06">06</option>
-                            <option value="07">07</option>
-                            <option value="08">08</option>
-                            <option value="09">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>
-                    </td>
-                    <td>
-                        <!-- <input type="text" value="" name="birthday" class="input-sm text-center" placeholder="DD" required> -->
-                        <select name="year" id="year" class="form-control input-sm text-center" required>
-                            <option value="">&lt; YYYY &gt;</option>
-                            {% for optionYear in range(newYear,oldYear,-1) %}
-                                <option value="{{optionYear}}">{{optionYear}}</option>
-                            {% endfor %}
-                        </select>
+                        <input type="date" value="" name="birthday" min="{{date[0]}}" max="{{date[1]}}" class="form-control input-lg text-center" required/>
                     </td>
                     <td></td>
                     <td>
@@ -101,6 +59,8 @@
                             {% endfor %}
                         </select>
                     </td>
+                    <td><input type="hidden" class="form-control input-sm text-center"></td>
+                    <td><input type="hidden" class="form-control input-sm text-center"></td>
                 </tr>
             </tbody>
         </table>

@@ -1,10 +1,9 @@
-from decimal import Decimal
 from flask import Flask, flash
 from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
-from datetime import datetime
+import datetime
 import mysql.connector
 from mysql.connector import FieldType
 import connect
@@ -605,14 +604,19 @@ def driveradd():
 def driveraddnext():
 
     # Get firstname/surname/carId from driveradd.html
-    firstname = request.form.get('firstname')
-    surname = request.form.get('surname')
-    car = request.form.get('car')
-    carId=car.split(" - ")[0]
-    carModelClass=car.split(" - ")[1]
-    driverType = request.form.get('driverType')
-    currentYear = datetime.now().year
+    driverName = [request.form.get('firstname'),request.form.get('surname')]
 
+    carStr = request.form.get('car')
+    carId=carStr.split(" - ")[0]
+    carModelClass=carStr.split(" - ")[1]
+    car = [carId, carModelClass]
+    driverType = request.form.get('driverType')
+
+    nowDate = datetime.datetime.now()
+    lastDate = nowDate + datetime.timedelta(days = -1)
+    lastYear = lastDate.year
+    lastMonth = lastDate.month
+    lastDay = lastDate.day
     # Get caregiver list and order by surname
     connection = getCursor()
     sql=""" SELECT driver.driver_id, driver.first_name, driver.surname
@@ -624,15 +628,19 @@ def driveraddnext():
 
     match driverType:
         case "option25":
-            return render_template('driveraddnonjunior.html',firstname=firstname,surname=surname,car=[carId,carModelClass])
+            return render_template('driveraddnonjunior.html', driverName=driverName,car=car)
         case "option16_25":
-            oldYear = currentYear - 25
-            newYear = currentYear - 16
-            return render_template("driveraddbirthday.html", firstname=firstname,surname=surname,car=[carId,carModelClass],oldYear=oldYear,newYear=newYear)
+            oldYear = lastYear - 25
+            newYear = lastYear - 16
+            minDate = str(oldYear)+"-"+str(lastMonth)+"-"+str(nowDate.day)
+            maxDate = str(newYear)+"-"+str(lastMonth)+"-"+str(lastDay)
+            return render_template("driveraddbirthday.html", driverName=driverName,car=car,date=[minDate,maxDate])
         case "option12_16":
-            oldYear = currentYear - 16
-            newYear = currentYear - 12
-            return render_template("driveraddunder16.html", firstname=firstname,surname=surname,car=[carId,carModelClass],oldYear=oldYear,newYear=newYear, caregiver_list = caregiverList)
+            oldYear = lastYear - 16
+            newYear = lastYear - 12
+            minDate = str(oldYear)+"-"+str(lastMonth)+"-"+str(nowDate.day)
+            maxDate = str(newYear)+"-"+str(lastMonth)+"-"+str(lastDay)
+            return render_template("driveraddunder16.html", driverName=driverName,car=car,date=[minDate,maxDate],caregiver_list = caregiverList)
 
 
 
