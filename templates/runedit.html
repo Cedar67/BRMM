@@ -2,15 +2,15 @@
 {% block header %}
 <br>
 <h2 class="text-primary">Edit Runs</h2>
+<br>
+
 {% endblock %}
 
 {% block content %}
 <table>
     <tr>
-        <td width="10">  </td>
         <th>
             <form id="driver_form" name="driver_form" action="/runedit" method="post">
-                    <label>Driver</label>
                     <select name="driver" id="driver">
                         {% if defaul_driver == None %}
                             <option selected>&lt; Select a driver &gt;</option>
@@ -36,7 +36,6 @@
         <td width="200">  </td>
         <td>
             <form id="course_form" name="course_form" action="/runedit" method="post">
-                    <label><b>Course</b></label>
                     <select name="course" id="course">
                         {% if defaul_course == None %}
                             <option selected>&lt; Select a course &gt;</option>

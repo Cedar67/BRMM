@@ -511,7 +511,7 @@ def runedit():
     # Get course id that user selects from runedit.html
     courseId = request.form.get('course')
     # Get course id that user selects from runedit.html
-    error = request.args.get('error')
+    error = request.args.get('info')
 
     #If driverId can be converted to an integer, convert to integer, otherwise set to None.
     try:
@@ -553,10 +553,10 @@ def runedit():
     runDetailUpdate = runsCalculate(runDetail)
     
     # Debug print
-    for list in runDetailUpdate:
-        print(list)
-    for list in courseList:
-        print(list)
+    # for list in runDetailUpdate:
+    #     print(list)
+    # for list in courseList:
+    #     print(list)
     
     return render_template("runedit.html", error = error, run_detail = runDetailUpdate, driver_List = driverList, course_List = courseList, defaul_driver = defaulDriver, defaul_course = defaulCourse)  
 
@@ -579,13 +579,13 @@ def runeditupdate():
     try:
         connection.execute(sql,parameters)
         connection.fetchall()
-        flash('success')
+        flash([1, 'Edit Successfully! - Driver ID: '+driverid])
     except Exception as ex:
         print(ex)
         error = 'Invalid Input'
-        flash('error')
+        flash([0, 'Edit Unsuccessfully. - Driver ID: '+driverid])
 
-    return redirect(url_for('runedit',error = error))
+    return redirect(url_for('runedit',info = error))
 
 
 
