@@ -650,26 +650,32 @@ def driveraddnonjunior():
     firstname = request.form.get('firstname')
     surname = request.form.get('surname')
     carId = int(request.form.get('car'))
+    try:
+        # Insert driver data into driver table
+        connection = getCursor()
+        sql1 = """   INSERT INTO driver (first_name, surname, car)
+                    VALUES (%s, %s, %s);"""
+        sql2 = """   SELECT max(driver_id) FROM driver;"""
+        parameters = (firstname,surname,carId,)
+        connection.execute(sql1,parameters)
+        connection.execute(sql2)
+        driverId = connection.fetchall()
 
-    # Insert driver data into driver table
-    connection = getCursor()
-    sql1 = """   INSERT INTO driver (first_name, surname, car)
-                VALUES (%s, %s, %s);"""
-    sql2 = """   SELECT max(driver_id) FROM driver;"""
-    parameters = (firstname,surname,carId,)
-    connection.execute(sql1,parameters)
-    connection.execute(sql2)
-    driverId = connection.fetchall()
+        # Insert init run data into run table
+        connection = getCursor()
+        sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
+                    VALUES (%s, %s, %s, %s, %s, %s);"""
+        for courseId in courseList:
+            for i in range(1,3):
+                parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
+                connection.execute(sql,parameters)
+                print(parameters)
 
-    # Insert init run data into run table
-    connection = getCursor()
-    sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
-                VALUES (%s, %s, %s, %s, %s, %s);"""
-    for courseId in courseList:
-        for i in range(1,3):
-            parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
-            connection.execute(sql,parameters)
-            print(parameters)
+        flash([1, 'Add Driver Successfully!    Driver ID: '+str(driverId[0][0])])
+
+    except Exception as ex:
+        print(ex)
+        flash([0, 'Add Driver Unsuccessfully.    Driver ID: '+str(driverId[0][0])])
 
     return redirect(url_for('searchdriverfilter',driver_id = driverId[0][0], driver_name = firstname +" "+ surname))
 
@@ -694,27 +700,33 @@ def driveraddjunior():
     ageBirthday = ageCalculate(year,month,day)
     birthday = ageBirthday['birthday']
     age = ageBirthday['age']
+    
+    try:
+        # Insert driver data into driver table
+        connection = getCursor()
+        sql1 = """   INSERT INTO driver (first_name, surname, date_of_birth, age, car)
+                    VALUES (%s, %s, %s, %s, %s);"""
+        sql2 = """   SELECT max(driver_id) FROM driver;"""
+        parameters = (firstname, surname, birthday, age, carId,)
+        connection.execute(sql1,parameters)
+        connection.execute(sql2)
+        driverId = connection.fetchall()
 
-    # Insert driver data into driver table
-    connection = getCursor()
-    sql1 = """   INSERT INTO driver (first_name, surname, date_of_birth, age, car)
-                VALUES (%s, %s, %s, %s, %s);"""
-    sql2 = """   SELECT max(driver_id) FROM driver;"""
-    parameters = (firstname, surname, birthday, age, carId,)
-    connection.execute(sql1,parameters)
-    connection.execute(sql2)
-    driverId = connection.fetchall()
+        # Insert init run data into run table
+        connection = getCursor()
+        sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
+                    VALUES (%s, %s, %s, %s, %s, %s);"""
+        for courseId in courseList:
+            for i in range(1,3):
+                parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
+                connection.execute(sql,parameters)
+                print(parameters)
 
-    # Insert init run data into run table
-    connection = getCursor()
-    sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
-                VALUES (%s, %s, %s, %s, %s, %s);"""
-    for courseId in courseList:
-        for i in range(1,3):
-            parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
-            connection.execute(sql,parameters)
-            print(parameters)
+        flash([1, 'Add Driver Successfully!    Driver ID: '+str(driverId[0][0])])
 
+    except Exception as ex:
+        print(ex)
+        flash([0, 'Add Driver Unsuccessfully.    Driver ID: '+str(driverId[0][0])])
     return redirect(url_for('searchdriverfilter',driver_id = driverId[0][0], driver_name = firstname +" "+ surname))
 
 
@@ -738,27 +750,34 @@ def driveraddunder16():
     ageBirthday = ageCalculate(year,month,day)
     birthday = ageBirthday['birthday']
     age = ageBirthday['age']
+    
+    try:
+        # Insert driver data into driver table
+        connection = getCursor()
+        sql1 = """   INSERT INTO driver (first_name, surname, date_of_birth, age, caregiver, car)
+                    VALUES (%s, %s, %s, %s, %s, %s);"""
+        sql2 = """   SELECT max(driver_id) FROM driver;"""
+        parameters = (firstname, surname, birthday, age, caregiver, carId,)
+        connection.execute(sql1,parameters)
+        connection.execute(sql2)
+        driverId = connection.fetchall()
 
-    # Insert driver data into driver table
-    connection = getCursor()
-    sql1 = """   INSERT INTO driver (first_name, surname, date_of_birth, age, caregiver, car)
-                VALUES (%s, %s, %s, %s, %s, %s);"""
-    sql2 = """   SELECT max(driver_id) FROM driver;"""
-    parameters = (firstname, surname, birthday, age, caregiver, carId,)
-    connection.execute(sql1,parameters)
-    connection.execute(sql2)
-    driverId = connection.fetchall()
+        # Insert init run data into run table
+        connection = getCursor()
+        sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
+                    VALUES (%s, %s, %s, %s, %s, %s);"""
+        for courseId in courseList:
+            for i in range(1,3):
+                parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
+                connection.execute(sql,parameters)
+                print(parameters)
 
-    # Insert init run data into run table
-    connection = getCursor()
-    sql = """   INSERT INTO run (dr_id, crs_id, run_num, seconds, cones, wd)
-                VALUES (%s, %s, %s, %s, %s, %s);"""
-    for courseId in courseList:
-        for i in range(1,3):
-            parameters = (driverId[0][0], courseId[0], i, None, None, 0,)
-            connection.execute(sql,parameters)
-            print(parameters)
+        flash([1, 'Add Driver Successfully!    Driver ID: '+str(driverId[0][0])])
 
+    except Exception as ex:
+        print(ex)
+        flash([0, 'Add Driver Unsuccessfully.    Driver ID: '+str(driverId[0][0])])
+    
     return redirect(url_for('searchdriverfilter',driver_id = driverId[0][0], driver_name = firstname +" "+ surname))
 
 
