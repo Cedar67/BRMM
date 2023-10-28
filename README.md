@@ -3,7 +3,7 @@
 <br>
 
 ## Product Background & Requirements
-**[Please click here to view.](BRMM/blob/main/PRD%20-%20WebApp%20-%20Motorkhana.pdf)**
+**[Please click here to view.](/PRD%20-%20WebApp%20-%20Motorkhana.pdf)**
 
 <br>
 
