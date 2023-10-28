@@ -509,8 +509,6 @@ def runedit():
     driverId = request.form.get('driver')
     # Get course id that user selects from runedit.html
     courseId = request.form.get('course')
-    # Get course id that user selects from runedit.html
-    error = request.args.get('info')
 
     #If driverId can be converted to an integer, convert to integer, otherwise set to None.
     try:
@@ -557,7 +555,7 @@ def runedit():
     # for list in courseList:
     #     print(list)
     
-    return render_template("runedit.html", error = error, run_detail = runDetailUpdate, driver_List = driverList, course_List = courseList, defaul_driver = defaulDriver, defaul_course = defaulCourse)  
+    return render_template("runedit.html", run_detail = runDetailUpdate, driver_List = driverList, course_List = courseList, defaul_driver = defaulDriver, defaul_course = defaulCourse)  
 
 
 
@@ -578,17 +576,17 @@ def runeditupdate():
     try:
         connection.execute(sql,parameters)
         connection.fetchall()
-        flash([1, 'Edit Successfully!    Driver ID: '+driverid])
+        flash([1, 'Edit Successfully!    Driver ID: '+driverid+' - Course ID: '+courseid+' - Run Num: '+runnum])
     except Exception as ex:
         print(ex)
         error = 'Invalid Input'
-        flash([0, 'Edit Unsuccessfully.    Driver ID: '+driverid])
+        flash([0, 'Edit Unsuccessfully.    Driver ID: '+driverid+' - Course ID: '+courseid+' - Run Num: '+runnum])
 
-    return redirect(url_for('runedit',info = error))
+    return redirect(url_for('runedit'))
 
 
 
-@app.route("/driveradd", methods=["GET"])
+@app.route("/driveradd")
 def driveradd():
     # Get car list and order by car_num
     connection = getCursor()
@@ -644,8 +642,7 @@ def driveraddnext():
 
 
 
-
-@app.route("/driveraddnonjunior", methods=['POST','GET'])
+@app.route("/driveraddnonjunior", methods=['POST'])
 def driveraddnonjunior():
 
     # Get course id list
