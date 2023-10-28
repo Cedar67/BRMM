@@ -1,4 +1,10 @@
 # Bankside Rakaia Motorkhana Mavens
+
+<br>
+
+## Product Background & Requirements
+**[Please click here to view.](BRMM/blob/main/PRD%20-%20WebApp%20-%20Motorkhana.pdf)**
+
 <br>
 
 ## Templates Introduction
@@ -58,6 +64,18 @@
 |   |   |driveraddnonjunior.html    | render_template  |    driversearch.html   |GET    |driver name<br>driver id   |
 |   |   |driveraddbirthday.html | render_template  |    driversearch.html   |GET    |driver name<br>driver id   |
 |   |   |driveraddunder16.html  | render_template  |    driversearch.html   |GET    |driver name<br>driver id   |
+
+<br>
+
+## Functions
+
+| Function Name  | Input Arguments   | Return Type   | Return Content   |
+|-------------|-------------|-------------|-------------|
+|getCursor  |user, password, host, port, dbname |MYSQLcursor    |Access to MySQL    |
+|ageCalculate   |sYear, sMonth, sDay    |Dictionary |age, birthday  |
+|ageCalculate2  |birthday (Format 19/10/2023)   |Dictionary |age, birthday  |
+|runsCalculate  |runDetail list without run total   |List   |runDetail include run total    |
+|overallCalculate   |runDetail include run total    |List   |Overall and prize result   |
 
 <br>
 
@@ -168,3 +186,16 @@ For example, if a normal user has access to the Edit Run page, there is no guara
 When routes are distinguished, only authorised administrators can modify these critical data according to their specific needs. 
 This provides better data security.
 
+<br>
+
+## Project Schedule
+**[Please click here to view.](https://docs.google.com/spreadsheets/d/1ru8RfZqSTfCWRcV7RW6NCX90a4ZVW_8HXqwLZyoBPUg/edit?usp=sharing)**
+
+
+## Job Log 
+**[Please click here to view.](https://docs.google.com/spreadsheets/d/1ru8RfZqSTfCWRcV7RW6NCX90a4ZVW_8HXqwLZyoBPUg/edit#gid=1914338260)**
+
+## Q & A
+**[Please click here to view.](https://docs.google.com/spreadsheets/d/1ru8RfZqSTfCWRcV7RW6NCX90a4ZVW_8HXqwLZyoBPUg/edit#gid=485308682)**
+
+<br>
