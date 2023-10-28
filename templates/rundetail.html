@@ -81,7 +81,11 @@
                     <th class="text-center">{{singlelist[10]}}</th>
                 {% endif %}
 
-                <th class="text-center">{{singlelist[11]}}</th>
+                {% if singlelist[11] == 0 %}
+                    <th class="text-center"></th>
+                {% else %}
+                    <th class="text-center">WD</th>
+                {% endif %}
 
                 {% if singlelist[12] == 0 %}
                     <th class="text-center">0.0</th>
