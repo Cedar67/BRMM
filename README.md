@@ -72,8 +72,7 @@
 | Function Name  | Input Arguments   | Return Type   | Return Content   |
 |-------------|-------------|-------------|-------------|
 |getCursor  |user, password, host, port, dbname |MYSQLcursor    |Access to MySQL    |
-|ageCalculate   |sYear, sMonth, sDay    |Dictionary |age, birthday  |
-|ageCalculate2  |birthday (Format 19/10/2023)   |Dictionary |age, birthday  |
+|ageCalculate   |date(yyyy-mm-dd)    |Dictionary |age, birthday  |
 |runsCalculate  |runDetail list without run total   |List   |runDetail include run total    |
 |overallCalculate   |runDetail include run total    |List   |Overall and prize result   |
 
