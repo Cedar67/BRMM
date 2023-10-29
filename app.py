@@ -25,18 +25,25 @@ def getCursor():
 
 
 
-def ageCalculate(sY, sM, sD):
-
+def ageCalculate(sDate):
+    sY = sDate.split("-")[0]
+    sM = sDate.split("-")[1]
+    sD = sDate.split("-")[2]
     try:
         iD=int(sD)
         iM=int(sM)
         iY=int(sY)
 
+        iDnow=datetime.datetime.now().day
+        iMnow=datetime.datetime.now().month
+        iYnow=datetime.datetime.now().year
+
         #  check the birthday if it is later than current date
-        if iY>datetime.now().year or (iY==datetime.now().year and iM>=datetime.now().month and iD>datetime.now().day):
+        # if iY>datetime.now().year or (iY==datetime.now().year and iM>=datetime.now().month and iD>datetime.now().day):
+        if iY>iYnow or (iY==iYnow and iM>=iMnow and iD>iDnow):
             return 0
         else:
-            today = str(datetime.now().strftime('%Y-%m-%d')).split("-")
+            today = str(datetime.datetime.now().strftime('%Y-%m-%d')).split("-")
             monthday = int(today[1] + today[2])
             year = int(today[0])
             b_monthday = int(sM + sD)
@@ -46,7 +53,8 @@ def ageCalculate(sY, sM, sD):
                 age = year - b_year
             else:
                 age = year - b_year - 1
-    except:
+    except Exception as ex:
+        print(ex)
         return -1
     
     ageBirthday = {'age': age, 'birthday': sY +"-"+ sM +"-"+ sD}
@@ -639,7 +647,7 @@ def driveraddnext():
             minDate = str(oldYear)+"-"+str(lastMonth)+"-"+str(nowDate.day)
             maxDate = str(newYear)+"-"+str(lastMonth)+"-"+str(lastDay)
             return render_template("driveraddunder16.html", driverName=driverName,car=car,date=[minDate,maxDate],caregiver_list = caregiverList)
-
+ 
 
 
 @app.route("/driveraddnonjunior", methods=['POST'])
@@ -694,15 +702,12 @@ def driveraddjunior():
     connection.execute(sql)
     courseList = connection.fetchall()
 
-    # Get firstname/surname/carId from driveradd.html
+    # Get firstname/surname/carId from driveraddbirthday.html
     firstname = request.form.get('firstname')
     surname = request.form.get('surname')
     carId = int(request.form.get('car'))
-    # caregiver = request.form.get('caregiver')
-    year = request.form.get('year')
-    month = request.form.get('month')
-    day = request.form.get('day')
-    ageBirthday = ageCalculate(year,month,day)
+    inputbirthday = request.form.get('birthday')
+    ageBirthday = ageCalculate(inputbirthday)
     birthday = ageBirthday['birthday']
     age = ageBirthday['age']
     
@@ -749,10 +754,8 @@ def driveraddunder16():
     surname = request.form.get('surname')
     carId = int(request.form.get('car'))
     caregiver = int(request.form.get('caregiver'))
-    year = request.form.get('year')
-    month = request.form.get('month')
-    day = request.form.get('day')
-    ageBirthday = ageCalculate(year,month,day)
+    inputbirthday = request.form.get('birthday')
+    ageBirthday = ageCalculate(inputbirthday)
     birthday = ageBirthday['birthday']
     age = ageBirthday['age']
     
