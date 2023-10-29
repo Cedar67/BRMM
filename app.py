@@ -103,7 +103,7 @@ def runsCalculate(runDetail):
             return -1
         # Calculate total time (If time is equal to 0, the result is invalid. run Total should also be 0)
         if time > 0:
-            run_total = time + cones_time*5 + wd_time
+            run_total = round((time + cones_time*5 + wd_time),2)
         else:
             run_total = 0.0
 
