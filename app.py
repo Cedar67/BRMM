@@ -63,42 +63,6 @@ def ageCalculate(sDate):
 
 
 
-def ageCalculate2(birthday):
-
-    # birthday input format: 19/10/2023
-    try:
-        sD=birthday[:2]
-        sM=birthday[3:5]
-        sY=birthday[6:]
-
-        iD=int(birthday[:2])
-        iM=int(birthday[3:5])
-        iY=int(birthday[6:])
-
-        # r_date=datetime.date(Y,M,D)
-        #  check the birthday if it is later than current date
-        if iY>datetime.now().year or (iY==datetime.now().year and iM>=datetime.now().month and iD>datetime.now().day):
-            return 0
-        else:
-            today = str(datetime.now().strftime('%Y-%m-%d')).split("-")
-            monthday = int(today[1] + today[2])
-            year = int(today[0])
-            b_monthday = int(sM + sD)
-            b_year = iY
-
-            if (monthday) >= b_monthday:
-                age = year - b_year
-            else:
-                age = year - b_year - 1
-    except:
-        return -1
-    
-    ageBirthday = {'age': age, 'birthday': sY +"-"+ sM +"-"+ sD}
-
-    return ageBirthday
-
-
-
 def runsCalculate(runDetail):
     # Calculate the Run Totals
     # Return a list including the course type, driver id, time, cones hit, WD status and the Run Totals.
